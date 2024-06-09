@@ -1,0 +1,128 @@
+﻿@using WMS.WebUI.ViewModels
+@model DashboardViewModel
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary revenue" data-bs-toggle="tooltip" data-bs-placement="top">
+            <div class="icon-container p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Total Revenue</span>
+                <h1 class="display-6 fw-bold" id="revenueValue" data-value="@Model.Summary.Revenue">@String.Format("{0:N2}", Model.Summary.Revenue)</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary partners">
+            <div class="icon-container p-5">
+                <i class="fa-solid fa-user-group fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Partners</span>
+                <h1 class="display-6 fw-bold">@Model.Summary.CustomersAmount</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary low-stock">
+            <div class="icon-container p-5">
+                <i class="fa-solid fa-parachute-box fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Low Stock</span>
+                <h1 class="display-6 fw-bold">@Model.Summary.LowQuantityProducts</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row p-3">
+    <div class="col-md-4">
+        <div class="widget chart">
+            <div class="p-4">
+                <h5 class="fw-bold">Sales by Categories</h5>
+            </div>
+            <ejs-accumulationchart id="doughnutchart" enableSmartLabels background="#1a222b">
+                <e-accumulation-series-collection>
+                    <e-accumulation-series dataSource="Model.SalesByCategories"
+                                           xName="Category" yName="SalesCount"
+                                           innerRadius="60%" legendShape="Circle"
+                                           palettes=@(new string[]{"#0e8d76","#a4b219","#cb9b00","#8a442c","#0454b5","#7d0a0a","#822690","#4c2090","#313e93","#0096ac"})>
+                        <e-accumulationseries-datalabel name="formattedAmount" visible></e-accumulationseries-datalabel>
+                    </e-accumulation-series>
+                </e-accumulation-series-collection>
+                <e-accumulationchart-legendsettings position="Top" toggleVisibility="false">
+                    <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
+                </e-accumulationchart-legendsettings>
+                <e-accumulationchart-tooltipsettings enable></e-accumulationchart-tooltipsettings>
+            </ejs-accumulationchart>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="widget chart">
+            <div class="p-4">
+                <h5 class="fw-bold">Monthly transactions report</h5>
+            </div>
+            <ejs-chart id="spline-chart" background="#1a222b"
+                       palettes=@(new string[]{ "#54ffa9", "#ffe91a", "#ab0c63"})>
+                <e-chart-primaryxaxis valueType="Category">
+                    <e-majorgridlines width="0"></e-majorgridlines>
+                    <e-majorticklines width="0"></e-majorticklines>
+                </e-chart-primaryxaxis>
+                <e-chart-primaryyaxis>
+                    <e-majorgridlines width="1" color="#32414d" dashArray="3,5"></e-majorgridlines>
+                    <e-majorticklines width="0"></e-majorticklines>
+                    <e-linestyle width="0"></e-linestyle>
+                </e-chart-primaryyaxis>
+                <e-chart-chartarea>
+                    <e-chartarea-border width="0"></e-chartarea-border>
+                </e-chart-chartarea>
+                <e-series-collection>
+                    <e-series dataSource="Model.SplineCharts" xName="Month" yName="Income" 
+                              width="3" name="Sales" type="@Syncfusion.EJ2.Charts.ChartSeriesType.Spline"></e-series>
+                    <e-series dataSource="Model.SplineCharts" xName="Month" width="3"
+                              yName="Expense" name="Supplies" type="@Syncfusion.EJ2.Charts.ChartSeriesType.Spline"></e-series>
+                    <e-series dataSource="Model.SplineCharts" xName="Month" width="3"
+                              yName="Refunds" name="Refunds" type="@Syncfusion.EJ2.Charts.ChartSeriesType.Spline"></e-series>
+                </e-series-collection>
+                <e-chart-legendsettings position="Top" alignment="Far" toggleVisibility="false">
+                    <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
+                </e-chart-legendsettings>
+                <e-chart-tooltipsettings enable shared></e-chart-tooltipsettings>
+            </ejs-chart>
+        </div>
+    </div>
+</div>
+
+@*Recent Transactions and More*@
+<div class="row">
+    <div class="col-md-8">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Recent Transactions</h5>
+            </div>
+            <div class="px-4 pb-4">
+                <ejs-grid id="recent-transactions"
+                          dataSource="Model.Transactions" gridLines="None">
+                    <e-grid-columns>
+                        <e-grid-column headerText="Id" field="Id" width="80"></e-grid-column>
+                        <e-grid-column headerText="Type" field="Type"></e-grid-column>
+                        <e-grid-column headerText="Date" field="Date" type="date" format="dd/MM/yyyy, HH:mm:ss"></e-grid-column>
+                        <e-grid-column headerText="Amount" field="Amount" format="C2" textAlign="Right"></e-grid-column>
+                    </e-grid-columns>
+                </ejs-grid>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="widget h-100">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span><i class="fa-solid fa-plus fa-2xl"></i> Widget</span>
+            </div>
+        </div>
+    </div>
+</div>
