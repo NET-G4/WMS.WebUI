@@ -9,7 +9,7 @@
             </div>
             <div class="d-flex flex-column m-auto py-3">
                 <span class="lead">Total Revenue</span>
-                <h1 class="display-6 fw-bold" id="revenueValue" data-value="@Model.Summary.Revenue">@String.Format("{0:N2}", Model.Summary.Revenue)</h1>
+                <h1 class="display-6 fw-bold" id="revenueValue" data-value="@Model.Summary.FormattedRevenue">@Model.Summary?.FormattedRevenue</h1>
             </div>
         </div>
     </div>

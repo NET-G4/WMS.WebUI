@@ -4,5 +4,5 @@ namespace WMS.WebUI.Stores.Interfaces;
 
 public interface IDashboardStore
 {
-    DashboardViewModel Get();
+    Task<DashboardViewModel> Get();
 }

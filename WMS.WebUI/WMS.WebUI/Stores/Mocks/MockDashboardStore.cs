@@ -5,7 +5,7 @@ namespace WMS.WebUI.Stores.Mocks;
 
 public class MockDashboardStore : IDashboardStore
 {
-    public DashboardViewModel Get()
+    public Task<DashboardViewModel> Get()
     {
         var dashboard = new DashboardViewModel();
         dashboard.Summary = new SummaryViewModel
@@ -135,17 +135,17 @@ public class MockDashboardStore : IDashboardStore
             },
             new SalesByCategoryViewModel
             {
-                Category = "Idish-Tovoq",
+                Category = "Household goods",
                 SalesCount = 312
             },
             new SalesByCategoryViewModel
             {
-                Category = "Daptar ruchka",
+                Category = "Appliances",
                 SalesCount = 49
             },
             new SalesByCategoryViewModel
             {
-                Category = "Gilam uyo buyo",
+                Category = "Furnitures",
                 SalesCount = 98
             },
         };
@@ -195,6 +195,6 @@ public class MockDashboardStore : IDashboardStore
             },
         };
 
-        return dashboard;
+        return Task.FromResult(dashboard);
     }
 }

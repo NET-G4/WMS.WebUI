@@ -3,40 +3,41 @@ using System.Diagnostics;
 using WMS.WebUI.Models;
 using WMS.WebUI.Stores.Interfaces;
 
-namespace WMS.WebUI.Controllers
+namespace WMS.WebUI.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IDashboardStore _dashboardStore;
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger, IDashboardStore dashboardStore)
     {
-        private readonly IDashboardStore _dashboardStore;
-        private readonly ILogger<HomeController> _logger;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _dashboardStore = dashboardStore ?? throw new ArgumentNullException(nameof(dashboardStore));
+    }
 
-        public HomeController(ILogger<HomeController> logger, IDashboardStore dashboardStore)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _dashboardStore = dashboardStore ?? throw new ArgumentNullException(nameof(dashboardStore));
-        }
+    public async Task<IActionResult> Index()
+    {
+        var dashboard = await _dashboardStore.Get();
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View(dashboard);
+    }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 
-        public IActionResult Dashboard()
-        {
-            var dashboard = _dashboardStore.Get();
+    public async Task<IActionResult> Dashboard()
+    {
+        var dashboard = await _dashboardStore.Get();
 
-            return View(dashboard);
-        }
+        return View(dashboard);
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
