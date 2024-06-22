@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Text;
+﻿using WMS.WebUI.Models.PaginatedResponse;
+using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -7,80 +7,45 @@ namespace WMS.WebUI.Stores;
 
 public class CategoryStore : ICategoryStore
 {
-    private readonly HttpClient _client;
+    private readonly ApiClient _client;
+    private const string RESOURCE = "categories";
 
-    public CategoryStore()
+    public CategoryStore(ApiClient client)
     {
-        _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client = client;
     }
 
     public async Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category)
     {
-        var json = JsonConvert.SerializeObject(category);
-        var request = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("categories", request);
-
-        response.EnsureSuccessStatusCode();
+        var result = await _client.PostAsync(RESOURCE, category);
         
-        var responseJson = await response.Content.ReadAsStringAsync();
-        var createdCategory = JsonConvert.DeserializeObject<CategoryViewModel>(responseJson);
-
-        if (createdCategory is null)
-        {
-            throw new JsonSerializationException("Error serializing Category response from API.");
-        }
-        
-        return createdCategory;
+        return result;
     }
 
     public async Task DeleteCategoryAsync(int id)
     {
-        var response = await _client.DeleteAsync($"categories/{id}");
-
-        response.EnsureSuccessStatusCode();
+        await _client.DeleteAsync(RESOURCE, id);
     }
 
-    public async Task<List<CategoryViewModel>> GetCategoriesAsync(string? search = null)
+    public async Task<PaginatedApiResponse<CategoryViewModel>> GetCategoriesAsync(string? search = null, int? pageNumber = 1)
     {
-        var response = await _client.GetAsync($"categories?search={search}");
+        pageNumber ??= 1;
 
-        response.EnsureSuccessStatusCode();
+        var queryParams = $"?search={search}&pageNumber={pageNumber}";
+        var result = await _client.GetAsync<PaginatedApiResponse<CategoryViewModel>>(RESOURCE + queryParams);
 
-        var json = await response.Content.ReadAsStringAsync();
-        var categories = JsonConvert.DeserializeObject<List<CategoryViewModel>>(json);
-
-        if (categories is null)
-        {
-            throw new JsonSerializationException("Error serializing Category response from API.");
-        }
-
-        return categories;
+        return result;
     }
 
     public async Task<CategoryViewModel> GetCategoryByIdAsync(int id)
     {
-        var response = await _client.GetAsync($"categories/{id}");
+        var category = await _client.GetAsync<CategoryViewModel>($"categories/{id}");
         
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        var category = JsonConvert.DeserializeObject<CategoryViewModel>(json);
-
-        if (category is null)
-        {
-            throw new JsonSerializationException("Error serializing Category response from API.");
-        }
-
         return category;
     }
 
     public async Task UpdateCategoryAsync(CategoryViewModel category)
     {
-        var json = JsonConvert.SerializeObject(category);
-        var request = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PutAsync($"categories/{category.Id}", request);
-
-        response.EnsureSuccessStatusCode();
+        await _client.PutAsync($"categories/{category.Id}", category);
     }
 }

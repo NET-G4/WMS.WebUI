@@ -1,12 +1,14 @@
-﻿using WMS.WebUI.ViewModels;
+﻿using WMS.WebUI.Models.PaginatedResponse;
+using WMS.WebUI.QueryParams;
+using WMS.WebUI.ViewModels;
 
 namespace WMS.WebUI.Stores.Interfaces;
 
 public interface IProductsStore
 {
-    List<ProductViewModel> GetProducts();
-    ProductViewModel? GetById(int id);
-    ProductViewModel Create(ProductViewModel product);
-    void Update(ProductViewModel product);
-    void Delete(int id);
+    Task<PaginatedApiResponse<ProductViewModel>> GetProducts(ProductQueryParameters queryParameters);
+    Task<ProductViewModel>? GetById(int id);
+    Task<ProductViewModel> Create(ProductViewModel product);
+    Task Update(ProductViewModel product);
+    Task Delete(int id);
 }

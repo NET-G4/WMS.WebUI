@@ -14,12 +14,20 @@ public class CategoriesController : Controller
     }
 
     // GET: Categories
-    public async Task<ActionResult> Index(string? searchString)
+    public async Task<ActionResult> Index(string? searchString,int? pageNumber)
     {
-        var categories = await _categoryStore.GetCategoriesAsync(searchString);
-        ViewBag.SearchString = searchString;
+        var categories = await _categoryStore.GetCategoriesAsync(searchString, pageNumber);
+       
+        ViewBag.SearchString = searchString ;
+        ViewBag.PageSize = categories.PageSize;
+        ViewBag.TotalPages = categories.PagesCount;
+        ViewBag.TotalItems = categories.TotalCount;
+        ViewBag.CurrentPage = categories.CurrentPage;
+        ViewBag.HasPreviousPage = categories.HasPreviousPage;
+        ViewBag.HasNextPage = categories.HasNextPage;
 
-        return View(categories);
+
+        return View(categories.Data);
     }
 
     // GET: Categories/Details/5

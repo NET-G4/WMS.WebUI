@@ -1,10 +1,11 @@
-﻿using WMS.WebUI.ViewModels;
+﻿using WMS.WebUI.Models.PaginatedResponse;
+using WMS.WebUI.ViewModels;
 
 namespace WMS.WebUI.Stores.Interfaces;
 
 public interface ICategoryStore
 {
-    Task<List<CategoryViewModel>> GetCategoriesAsync(string? search = null);
+    Task<PaginatedApiResponse<CategoryViewModel>> GetCategoriesAsync(string? search = null,int? pageNumber = 1);
     Task<CategoryViewModel> GetCategoryByIdAsync(int id);
     Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category);
     Task UpdateCategoryAsync(CategoryViewModel category);
