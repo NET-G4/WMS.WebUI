@@ -45,7 +45,7 @@ public class SupplierStore(ApiClient apiClient) : ISupplierStore
 
     public async Task Update(SupplierActionViewModel supplier)
     {
-        await _apiClient.PutAsync(ApiResourceConstants.Suppliers, supplier);
+        await _apiClient.PutAsync(ApiResourceConstants.Suppliers + "/" + supplier.Id, supplier);
     }
     private string BuildQueryParameters(SupplierQueryParameters queryParameters)
     {

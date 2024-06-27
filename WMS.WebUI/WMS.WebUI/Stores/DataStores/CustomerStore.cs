@@ -47,7 +47,7 @@ public class CustomerStore(ApiClient apiClient) : ICustomerStore
 
     public async Task Update(CustomerActionViewModel customer)
     {
-        await _apiClient.PutAsync(ApiResourceConstants.Customers, customer);
+        await _apiClient.PutAsync(ApiResourceConstants.Customers + "/" + customer.Id, customer);
     }
     private string BuildQueryParameters(CustomerQueryParameters queryParameters)
     {
