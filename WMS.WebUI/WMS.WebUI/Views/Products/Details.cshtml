@@ -1,0 +1,47 @@
+﻿@model WMS.WebUI.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<h2>Product Details</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <dl class="row">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+
+            <dt class="col-sm-3">Sale Price</dt>
+            <dd class="col-sm-9">@Model.SalePrice.ToString("C")</dd>
+
+            <dt class="col-sm-3">Supply Price</dt>
+            <dd class="col-sm-9">@Model.SupplyPrice.ToString("C")</dd>
+
+            <dt class="col-sm-3">Quantity In Stock</dt>
+            <dd class="col-sm-9">@Model.QuantityInStock</dd>
+
+            <dt class="col-sm-3">Low Quantity Amount</dt>
+            <dd class="col-sm-9">@Model.LowQuantityAmount</dd>
+
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category</dd>
+        </dl>
+
+        <div class="m-5">
+            <a asp-action="Index" class="btn btn-info fa-solid fa-arrow-left">
+                Back
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning fa-solid fa-pen">
+                Edit
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-outline-danger fa-solid fa-trash">
+                Delete
+            </a>
+        </div>
+    </div>
+</div>

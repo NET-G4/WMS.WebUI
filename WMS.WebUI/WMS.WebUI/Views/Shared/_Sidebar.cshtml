@@ -9,7 +9,7 @@
     menuItems.Add(new
     {
         text = "Dashboard",
-        url = "/",
+        url = "/home",
         iconCss = "fa-solid fa-box"
     });
     menuItems.Add(new
@@ -46,13 +46,43 @@
     {
         text = "Transactions",
         url = "#",
-        iconCss = "fa-solid fa-money-bill-transfer"
+        iconCss = "fa-solid fa-money-bill-transfer",
+        items = new List<object>
+        {
+            new
+            {
+                text = "Sales",
+                url = "/sales",
+                iconCss = "fa-solid fa-shopping-cart"
+            },
+            new
+            {
+                text = "Supplies",
+                url = "/supplies",
+                iconCss = "fa-solid fa-truck"
+            }
+        }
     });
     menuItems.Add(new
     {
         text = "Partners",
         url = "#",
-        iconCss = "fa-solid fa-users"
+        iconCss = "fa-solid fa-users",
+        items = new List<object>()
+        {
+            new
+            {
+                text = "Customers",
+                url = "/customers",
+                iconCss = "fa-solid fa-user-friends"
+            },
+            new
+            {
+                text = "Suppliers",
+                url = "/suppliers",
+                iconCss = "fa-solid fa-truck"
+            }
+        } 
     });
 
     menuItems.Add(new

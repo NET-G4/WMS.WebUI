@@ -1,5 +1,5 @@
 using WMS.WebUI.Services;
-using WMS.WebUI.Stores;
+using WMS.WebUI.Stores.DataStores;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.Stores.Mocks;
 
@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
+builder.Services.AddScoped<ICustomerStore,CustomerStore>();
+builder.Services.AddScoped<ISupplierStore,SupplierStore>();
+
 builder.Services.AddSingleton<ApiClient>();
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVJwWmFZfVpgfF9DaFZQTGYuP1ZhSXxXdkNjUH9WdXxUTmNeVE0="); ;

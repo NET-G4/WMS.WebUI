@@ -6,7 +6,7 @@ using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
-namespace WMS.WebUI.Stores;
+namespace WMS.WebUI.Stores.DataStores;
 
 public class ProductStore : IProductsStore
 {
@@ -19,9 +19,9 @@ public class ProductStore : IProductsStore
 
     public async Task<ProductViewModel> Create(ProductViewModel product)
     {
-        var result = await _client.PostAsync(ApiResourceConstants.Products, product);
-        
-        return result;
+        var result = await _client.PostAsync<ProductViewModel,ProductViewModel>(ApiResourceConstants.Products, product);
+
+        return result;  
     }
 
     public async Task Delete(int id)
@@ -39,7 +39,6 @@ public class ProductStore : IProductsStore
         var result = await _client.GetAsync<PaginatedApiResponse<ProductViewModel>>(url);
 
         return result;
-
     }
 
     public async Task<ProductViewModel> GetById(int id)
@@ -51,7 +50,7 @@ public class ProductStore : IProductsStore
 
     public async Task Update(ProductViewModel product)
     {
-        await _client.PutAsync(ApiResourceConstants.Products, product);
+        await _client.PutAsync(ApiResourceConstants.Products + "/" + product.Id, product);
     }
 
     private static string BuildQueryParameters(ProductQueryParameters queryParameters)
@@ -87,9 +86,9 @@ public class ProductStore : IProductsStore
             queryBuilder.Append($"MaxPrice={queryParameters.MaxPrice}&");
         }
 
-        if (queryParameters.LowQuantityInStock.HasValue && queryParameters.LowQuantityInStock == true)
+        if (queryParameters.IsLowQuantity.HasValue && queryParameters.IsLowQuantity == true)
         {
-            queryBuilder = queryBuilder.Append($"LowQuantityInStock={queryParameters.LowQuantityInStock}");
+            queryBuilder = queryBuilder.Append($"IsLowQuantity={queryParameters.IsLowQuantity}");
         }
 
         return queryBuilder.ToString();

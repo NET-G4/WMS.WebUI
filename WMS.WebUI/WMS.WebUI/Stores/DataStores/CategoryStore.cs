@@ -1,14 +1,15 @@
-﻿using WMS.WebUI.Models.PaginatedResponse;
+﻿using WMS.WebUI.Constants;
+using WMS.WebUI.Models.PaginatedResponse;
 using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
-namespace WMS.WebUI.Stores;
+namespace WMS.WebUI.Stores.DataStores;
 
 public class CategoryStore : ICategoryStore
 {
     private readonly ApiClient _client;
-    private const string RESOURCE = "categories";
+    private const string RESOURCE = ApiResourceConstants.Categories;
 
     public CategoryStore(ApiClient client)
     {
@@ -17,8 +18,8 @@ public class CategoryStore : ICategoryStore
 
     public async Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category)
     {
-        var result = await _client.PostAsync(RESOURCE, category);
-        
+        var result = await _client.PostAsync<CategoryViewModel,CategoryViewModel>(RESOURCE, category);
+
         return result;
     }
 
@@ -40,7 +41,7 @@ public class CategoryStore : ICategoryStore
     public async Task<CategoryViewModel> GetCategoryByIdAsync(int id)
     {
         var category = await _client.GetAsync<CategoryViewModel>($"categories/{id}");
-        
+
         return category;
     }
 

@@ -12,15 +12,14 @@ public class ApiClient
     {
         _client = new()
         {
-            BaseAddress = new Uri("https://localhost:7097/api/")
+            BaseAddress = new Uri("https://localhost:7108/api/")
         };
     }
 
     public async Task<T> GetAsync<T>(string resource)
     {
         var response = await _client.GetAsync(resource);
-        response.EnsureSuccessStatusCode();
-
+        
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadAsStringAsync();
@@ -30,7 +29,7 @@ public class ApiClient
         return result;
     }
 
-    public async Task<T> PostAsync<T>(string resource, T body)
+    public async Task<T> PostAsync<T,TBody>(string resource, TBody body)
     {
         var content = GetStringContent(body);
         var response = await _client.PostAsync(resource, content);

@@ -1,4 +1,6 @@
-﻿namespace WMS.WebUI.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace WMS.WebUI.ViewModels;
 
 public class ProductViewModel
 {
@@ -9,7 +11,7 @@ public class ProductViewModel
     public decimal SupplyPrice { get; set; }
     public int QuantityInStock { get; set; }
     public int LowQuantityAmount { get; set; }
-
+    [ValidateNever]
     public string Category { get; set; }
     public int CategoryId { get; set; }
 }

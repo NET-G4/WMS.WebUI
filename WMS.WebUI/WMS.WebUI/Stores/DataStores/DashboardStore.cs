@@ -3,7 +3,7 @@ using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
-namespace WMS.WebUI.Stores;
+namespace WMS.WebUI.Stores.DataStores;
 
 public class DashboardStore : IDashboardStore
 {

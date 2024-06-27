@@ -2,8 +2,8 @@
 
 <br />
 <div class="mb-4">
-    <form asp-action="Index">
-        <div class="row g-3">
+    <form asp-action="Index" method="get">
+        <div class="row g-3 align-items-center">
             <div class="col-md-3">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search..." name="searchString" value="@ViewBag.SearchString" />
@@ -23,8 +23,16 @@
             <div class="col-md-2">
                 <input type="number" class="form-control" placeholder="Max Sale Price" name="maxPrice" value="@ViewBag.MaxPrice" />
             </div>
+            <div class="col-md-2">
+                <div class="form-check d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" name="isLowQuantity" @(ViewBag.IsLowQuantity ? "checked" : "")>
+                    <label class="form-check-label ms-1" for="isLowQuantity">
+                        <i class="fa-solid fa-exclamation-triangle me-1"></i> <span style="font-size: 1.3rem;">Low quantity</span>
+                    </label>
+                </div>
+            </div>
             <div class="col-md-1 d-flex justify-content-end">
-                <a asp-action="Create" class="btn btn-outline-success">New +</a>
+                <a asp-action="Create" asp-controller="products" class="btn btn-outline-success">New +</a>
             </div>
         </div>
     </form>
