@@ -2,12 +2,14 @@
 @{
 }
 
-<div class="mb-2">
-    <form asp-action="Index">
-        <div class="d-flex justfiy-content-between gap-4">
-            <div class="col-4">
+<form asp-controller="Categories" asp-action="Index">
+    <input type="hidden" />
+    <div class="row mt-3">
+        <div class="d-flex justify-content-between gap-4">
+            <!-- Search -->
+            <div class="col-md-4 mb-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search..." name="searchString" value="@ViewBag.SearchString" />
+                    <input type="text" class="form-control" placeholder="Search..." name="searchString" value="@ViewBag.SearchString" style="border-radius: 5px" />
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-search"></i> Search
@@ -15,33 +17,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <a asp-action="Create" class="mb-4 float-right btn btn-outline-success">
-                    New +
+
+            <div class="d-flex col-md-6 mb-4 justify-content-end" style="gap: 15px;">
+                <a class="btn btn-outline-info" asp-action="download">
+                    <i class="fa fa-solid fa-download"></i> Download
+                </a>
+                <a class="btn btn-outline-info" asp-action="upload">
+                    <i class="fa fa-solid fa-upload"></i> Upload
+                </a>
+                <a class="btn btn-success" asp-action="create">
+                    <i class="fa fa-solid fa-plus"></i> Create
                 </a>
             </div>
         </div>
-    </form>
-</div>
-
+    </div>
+</form>
 <div class="row">
     <div class="col-12">
         <ejs-grid id="categories-list"
                   dataSource="@Model"
                   gridLines="Vertical"
                   allowSorting="true">
-                  <e-grid-columns>
-                      <e-grid-column headerText="Id" field="Id" template="#idCellTemplate" typeof="Text"></e-grid-column>
-                      <e-grid-column headerText="Name" field="Name" typeof="Text"></e-grid-column>
-                      <e-grid-column headerText="Description" field="Description" typeof="Text"></e-grid-column>
-
-                  </e-grid-columns>
+            <e-grid-columns>
+                <e-grid-column headerText="Id" field="Id" template="#template" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Name" field="Name" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Description" field="Description" typeof="Text"></e-grid-column>
+            </e-grid-columns>
         </ejs-grid>
     </div>
 </div>
 
-<script id="idCellTemplate" type="text/template">
+<script id="template" type="text/x-template">
     <div>
-        <a rel='nofollow' href="categories/details/${Id}">${Id}</a>
+        <a rel="nofollow" href="categories/details/${Id}">${Id}</a>
     </div>
 </script>
+                  

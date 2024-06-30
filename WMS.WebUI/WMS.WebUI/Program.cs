@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
-builder.Services.AddScoped<IProductsStore, MockProductsStore>();
+builder.Services.AddScoped<IProductsStore, ProductStore>();
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVJwWmFZfVpgfF9DaFZQTGYuP1ZhSXxXdkNjUH9WdXxUTmNeVE0="); ;
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2v1hhQ1JCFV5AQmBIYVP/TGPJf196CVXMZVVBJAtUQF1hSn9SdexjwHpacHFdRGNY");
 
 var app = builder.Build();
 

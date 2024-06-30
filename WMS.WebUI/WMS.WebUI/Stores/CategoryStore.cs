@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using WMS.WebUI.Models;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -48,14 +49,14 @@ public class CategoryStore : ICategoryStore
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadAsStringAsync();
-        var categories = JsonConvert.DeserializeObject<List<CategoryViewModel>>(json);
+        var categories = JsonConvert.DeserializeObject<PaginatedResponse<CategoryViewModel>>(json);
 
         if (categories is null)
         {
             throw new JsonSerializationException("Error serializing Category response from API.");
         }
 
-        return categories;
+        return categories.Data;
     }
 
     public async Task<CategoryViewModel> GetCategoryByIdAsync(int id)
