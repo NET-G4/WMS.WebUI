@@ -1,3 +1,4 @@
+using WMS.WebUI.Extensions;
 using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.Stores.Mocks;
@@ -9,8 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
-
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2v1hhQ1JCFV5AQmBIYVP/TGPJf196CVXMZVVBJAtUQF1hSn9SdexjwHpacHFdRGNY");
+builder.Services.AddSyncfusion(builder.Configuration);
 
 var app = builder.Build();
 
@@ -31,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Categories}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

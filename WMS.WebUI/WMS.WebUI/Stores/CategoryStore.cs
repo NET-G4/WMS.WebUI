@@ -84,4 +84,12 @@ public class CategoryStore : ICategoryStore
 
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task<Stream> GetExportFileAsync(DownloadFileType fileType = DownloadFileType.PDF)
+    {
+        var response = await _client.GetAsync($"categories/download?fileType={fileType}");
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        return stream;
+    }
 }

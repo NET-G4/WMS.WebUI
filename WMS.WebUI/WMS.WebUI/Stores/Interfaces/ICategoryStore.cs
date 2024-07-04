@@ -9,4 +9,11 @@ public interface ICategoryStore
     Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category);
     Task UpdateCategoryAsync(CategoryViewModel category);
     Task DeleteCategoryAsync(int id);
+    Task<Stream> GetExportFileAsync(DownloadFileType fileType = DownloadFileType.PDF);
+}
+
+public enum DownloadFileType
+{
+    PDF,
+    EXCEL
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using WMS.WebUI.Helpers;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -8,35 +10,42 @@ namespace WMS.WebUI.Controllers;
 public class ProductsController : Controller
 {
     private readonly IProductsStore _productsStore;
-    public ProductsController(IProductsStore productsStore)
+    private readonly ICategoryStore _categoryStore;
+
+    public ProductsController(IProductsStore productsStore, ICategoryStore categoryStore)
     {
-        _productsStore = productsStore;
+        _productsStore = Validator.NotNull(productsStore);
+        _categoryStore = Validator.NotNull(categoryStore);
     }
 
-    // GET: ProductsController
-    public async Task<ActionResult> Index(string? searchString = null)
+    public async Task<ActionResult> Index(string? searchString = null, int? categoryId = null)
     {
-        var products = await _productsStore.GetProductsAsync(searchString);
+        var productsTask =  _productsStore.GetProductsAsync(searchString, categoryId);
+        var categoriesTask = _categoryStore.GetCategoriesAsync();
+
+        await Task.WhenAll(productsTask, categoriesTask);
+
         ViewBag.SearchString = searchString;
+        ViewBag.Categories = categoriesTask.Result;
 
-        return View(products);
+        return View(productsTask.Result.Data);
     }
 
-    // GET: ProductsController/Details/5
-    public ActionResult Details(int id)
+    public async Task<ActionResult> Details(int id)
     {
-        var product = _productsStore.GetByIdAsync(id);
+        var product = await _productsStore.GetByIdAsync(id);
+
+        return View(product);
+    }
+
+    public async Task<ActionResult> Create()
+    {
+        var categories = await _categoryStore.GetCategoriesAsync();
+        ViewBag.Categories = categories;
 
         return View();
     }
 
-    // GET: ProductsController/Create
-    public ActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: ProductsController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind("Name, Description")] ProductViewModel product)
@@ -53,7 +62,6 @@ public class ProductsController : Controller
         }
     }
 
-    // GET: ProductsController/Edit/5
     public async Task<ActionResult> Edit(int id)
     {
         var product = await _productsStore.GetByIdAsync(id);
@@ -66,7 +74,6 @@ public class ProductsController : Controller
         return View(product);
     }
 
-    // POST: ProductsController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit(int id, [Bind("id, Name, Description")] ProductViewModel product)
@@ -83,7 +90,6 @@ public class ProductsController : Controller
         }
     }
 
-    // GET: ProductsController/Delete/5
     public async Task<ActionResult> Delete(int id)
     {
         var product = await _productsStore.GetByIdAsync(id);
@@ -96,7 +102,6 @@ public class ProductsController : Controller
         return View(product);
     }
 
-    // POST: ProductsController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> ConfirmDelete(int id)

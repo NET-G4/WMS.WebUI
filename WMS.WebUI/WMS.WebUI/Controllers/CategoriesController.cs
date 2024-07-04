@@ -22,6 +22,13 @@ public class CategoriesController : Controller
         return View(categories);
     }
 
+    public async Task<IActionResult> Download()
+    {
+        var stream = await _categoryStore.GetExportFileAsync();
+
+        return File(stream, "application/pdf", "categories.pdf");
+    }
+
     // GET: Categories/Details/5
     public async Task<ActionResult> Details(int id)
     {
