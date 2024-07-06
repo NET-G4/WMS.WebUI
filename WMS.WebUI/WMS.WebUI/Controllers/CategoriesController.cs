@@ -17,6 +17,7 @@ public class CategoriesController : Controller
     public async Task<ActionResult> Index(string? searchString)
     {
         var categories = await _categoryStore.GetCategoriesAsync(searchString);
+
         ViewBag.SearchString = searchString;
 
         return View(categories);

@@ -1,4 +1,5 @@
 using WMS.WebUI.Extensions;
+using WMS.WebUI.Filters;
 using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.Stores.Mocks;
@@ -6,7 +7,8 @@ using WMS.WebUI.Stores.Mocks;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options => 
+    options.Filters.Add(new ExceptionFilter()));
 builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
