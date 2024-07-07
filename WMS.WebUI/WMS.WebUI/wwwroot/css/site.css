@@ -1,3 +1,7 @@
+html {
+    font-size: 14px;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -5,7 +9,6 @@
 }
 
 html {
-    font-size: 14px;
     position: relative;
     min-height: 100%;
     font-family: "Inter";
@@ -17,7 +20,7 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #2d323b;
+    background-color: #252a33;
     color: #fff;
     overflow: hidden;
 }
@@ -27,32 +30,24 @@ body {
 }
 
 .main-content {
-    margin-left: 300px;
+    margin-left: 290px;
     overflow-y: auto;
     height: 92vh;
 }
 
-
-/*BreadCrumb*/
-.e-breadcrumb a, .e-breadcrumb a:hover {
+/*BreadCrumb*/ .e-breadcrumb a, .e-breadcrumb a:hover {
     text-decoration: none !important;
     color: inherit !important;
 }
-
-/*Button*/
-.btn:focus, .btn:active {
+/*Button*/ .btn:focus, .btn:active {
     outline: none !important;
     box-shadow: none;
 }
-
-/*Hyperlink*/
-.no-a-decoration, .no-a-decoration:hover {
+/*Hyperlink*/ .no-a-decoration, .no-a-decoration:hover {
     text-decoration: none;
     color: inherit;
 }
-
-/*Grid*/
-.e-grid {
+/*Grid*/ .e-grid {
     border: 0;
     border-radius: 5px;
 }
@@ -122,7 +117,6 @@ body {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
 /*Logo*/
 .logo-wrapper {
     height: 70px;
@@ -134,7 +128,6 @@ body {
 .app-logo {
     padding: 10px 10px;
 }
-
 /*Menu*/
 #menu {
     width: 100% !important;
@@ -180,9 +173,7 @@ body {
             margin-top: 35px;
         }
 
-
-
-/*Navbar*/
+/*Navbar*/ 
 nav.navbar {
     background-color: rgba(18, 22, 29);
 }
@@ -203,8 +194,7 @@ nav.navbar {
 nav.navbar {
     margin-left: 290px;
 }
-
-/*Profile Pic*/
+/*Profile Pic*/ 
 img.profile-pic {
     width: 45px;
     height: 45px;
@@ -225,15 +215,14 @@ img.profile-pic {
     .profile-wrapper .titles {
         line-height: 1;
     }
-
-/*Radio Button Group*/
+/*Radio Button Group*/ 
 .e-btn-group.custom-rbt-group {
     width: 100%;
 }
 
-.e-btn-group.custom-rbt-group .e-btn {
-    width: 50%;
-}
+    .e-btn-group.custom-rbt-group .e-btn {
+        width: 50%;
+    }
 
 .custom-rbt-group label.e-btn {
     box-shadow: none !important;
@@ -247,8 +236,7 @@ img.profile-pic {
     color: #212b36;
     border: 1px solid #fff;
 }
-
-/*SideBar*/
+/*SideBar*/ 
 #sidebar {
     background-color: #12161d;
     border-right: 1px dashed rgba(75,82,85,0.24);
@@ -291,9 +279,7 @@ img.profile-pic {
         display: none !important;
     }
 
-
-    #sidebar.e-open .e-anchor-wrap,
-    #sidebar.e-close .e-menu-icon, #sidebar.e-open .e-menu-icon {
+    #sidebar.e-open .e-anchor-wrap, #sidebar.e-close .e-menu-icon, #sidebar.e-open .e-menu-icon {
         visibility: visible;
     }
 
@@ -314,14 +300,13 @@ img.profile-pic {
     content: '\f101'
 }
 
-/*Widget*/
-.widget {
+/*Widget*/ .widget {
     border-radius: 1rem;
     background-color: #1a222b;
 }
 
     .widget.summary > div:first-child {
-        background-color: #222b33;
+        border-left-color: white;
         padding: 1rem;
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
@@ -331,16 +316,139 @@ img.profile-pic {
             font-weight: bold;
         }
 
-    .widget.revenue > div:first-child {
-        color: #65da41;
-    }
-
-    .widget.partners > div:first-child {
+    .widget.total > div:first-child {
         color: #2aa1ff;
     }
 
-    .widget.low-stock > div:first-child {
-        color: #d43393;
+    .widget.sales > div:first-child {
+        color: #65da41;
+    }
+
+    .widget.supplies > div:first-child {
+        color: #ff4e48;
+    }
+
+    .widget.chart {
+        padding: 5px;
+    }
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.register-label {
+    animation: slideInFromLeft 0.5s ease-in-out forwards;
+}
+
+.custom-rbt-group label.e-btn {
+    box-shadow: none !important;
+    border: 1px solid #fff;
+    background-color: rgb(34 43 51);
+    color: #fff;
+}
+
+.e-btn-group.custom-rbt-group input:checked + label.e-btn {
+    background-color: #fff;
+    color: #212b36;
+    border: 1px solid #fff;
+}
+/*SideBar*/ #sidebar {
+    background-color: #12161d;
+    border-right: 1px dashed rgba(75,82,85,0.24);
+    padding: 10px 20px;
+    overflow: hidden;
+}
+
+    #sidebar .e-menu-wrapper {
+        width: 100%;
+        background-color: inherit;
+    }
+
+#sidebar-toggler {
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+    #sidebar-toggler:hover {
+        cursor: pointer;
+        background-color: #48545f14;
+        transform: scale(1.05) translateZ(0px);
+    }
+
+#sidebar.e-close {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    #sidebar.e-close .app-logo {
+        display: none;
+    }
+
+    #sidebar.e-close .e-anchor-wrap, #sidebar.e-close .e-menu-item.e-menu-caret-icon {
+        font-size: 0px;
+    }
+
+    #sidebar.e-close .profile-wrapper .titles {
+        display: none !important;
+    }
+
+    #sidebar.e-open .e-anchor-wrap, #sidebar.e-close .e-menu-icon, #sidebar.e-open .e-menu-icon {
+        visibility: visible;
+    }
+
+#sidebar.e-open .profile-wrapper .titles, #sidebar.e-open .app-logo {
+    display: flex;
+}
+
+#sidebar.e-sidebar.e-right.e-close {
+    visibility: visible;
+    transform: translateX(0%);
+}
+
+#sidebar.e-open #sidebar-toggler:before {
+    content: '\f100'
+}
+
+#sidebar.e-close #sidebar-toggler:before {
+    content: '\f101'
+}
+/*Widget*/ .widget {
+    border-radius: 1rem;
+    background-color: #1a222b;
+}
+
+    .widget.summary > div:first-child {
+        padding: 1rem;
+        border-top-left-radius: 1rem;
+        border-left-color: white;
+        border-left-width: 1rem;
+        border-bottom-left-radius: 1rem;
+    }
+
+        .widget.summary > div:first-child i {
+            font-weight: bold;
+        }
+
+    .widget.total > div:first-child {
+        color: #2aa1ff;
+    }
+
+    .widget.sales > div:first-child {
+        color: #65da41;
+    }
+
+    .widget.supplies > div:first-child {
+        color: #ff4e48;
     }
 
     .widget.chart {

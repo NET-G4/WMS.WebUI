@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net;
 using WMS.WebUI.Models;
 using WMS.WebUI.Stores.Interfaces;
 
@@ -36,8 +37,13 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int statusCode)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return statusCode switch
+        {
+            (int)HttpStatusCode.NotFound => RedirectToAction("NotFound", "Errors"),
+            (int)HttpStatusCode.InternalServerError => RedirectToAction("InternalError", "Errors"),
+            _ => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier })
+        };
     }
 }
