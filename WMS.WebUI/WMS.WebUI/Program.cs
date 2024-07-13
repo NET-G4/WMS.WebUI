@@ -2,7 +2,6 @@ using WMS.WebUI.Extensions;
 using WMS.WebUI.Filters;
 using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
-using WMS.WebUI.Stores.Mocks;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -27,6 +27,7 @@ public class ProductsController : Controller
 
         ViewBag.SearchString = searchString;
         ViewBag.Categories = categoriesTask.Result;
+        ViewBag.SelectedCategoryId = categoryId;
 
         return View(productsTask.Result.Data);
     }
@@ -42,13 +43,14 @@ public class ProductsController : Controller
     {
         var categories = await _categoryStore.GetCategoriesAsync();
         ViewBag.Categories = categories;
+        ViewBag.CategoryId = categories.FirstOrDefault();
 
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create([Bind("Name, Description")] ProductViewModel product)
+    public async Task<ActionResult> Create([Bind("Name,Description,SupplyPrice,SalePrice,QuantityInStock,LowQuantityAmount,CategoryId")] ProductViewModel product)
     {
         try
         {
@@ -64,12 +66,19 @@ public class ProductsController : Controller
 
     public async Task<ActionResult> Edit(int id)
     {
-        var product = await _productsStore.GetByIdAsync(id);
+        var productTask = _productsStore.GetByIdAsync(id);
+        var categoriesTask = _categoryStore.GetCategoriesAsync();
+
+        await Task.WhenAll(productTask, categoriesTask);
+
+        var product = productTask.Result;
 
         if(product is null)
         {
             return NotFound();
         }
+
+        ViewBag.Categories = categoriesTask.Result;
 
         return View(product);
     }

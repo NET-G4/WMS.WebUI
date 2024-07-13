@@ -122,8 +122,6 @@ fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, 
     }
 }
 
-
-
 button {
     border: none;
     padding: 0;
@@ -249,7 +247,7 @@ button {
     display: inline-block;
     vertical-align: top;
     margin: 0 15px;
-    border: 1px solid #181828;
+    border: 1px solid #fff;
     color: #181828;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
@@ -294,7 +292,7 @@ button {
         color: #fff;
     }
 
-    .e-nav__link:nth-child(2):hover:after {
+    .e-nav__link {
         color: #fff;
     }
 /* 2.1. END Section Error */

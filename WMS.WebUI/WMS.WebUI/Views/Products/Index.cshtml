@@ -1,13 +1,13 @@
 ﻿@model List<WMS.WebUI.ViewModels.ProductViewModel>
 
-
 <form asp-controller="Products" asp-action="Index">
     <input type="hidden" />
     <div class="row mt-3">
         <div class="d-flex justify-content-start gap-4">
             <div class="col-md-3 mb-4">
                 <ejs-combobox id="categories" 
-                              dataSource="@ViewBag.Categories" 
+                              dataSource="@ViewBag.Categories"
+                              value="@ViewBag.SelectedCategoryId"
                               placeholder="Select a category"
                               name="categoryId">
                     <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
@@ -16,14 +16,14 @@
             <!-- Search -->
             <div class="col-md-4 mb-4">
                 <div class="d-flex">
-                    <ejs-textbox id="search" placeholder="Search Products..." name="searchString"></ejs-textbox>
+                    <ejs-textbox id="search" value="@ViewBag.SearchString" placeholder="Search Products..." name="searchString"></ejs-textbox>
                     <button type="submit" class="btn btn-primary">
-                        Search
+                        <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="d-flex mb-2 justify-content-end" style="gap: 15px;">
+            <div class="d-flex mb-4 justify-content-end" style="gap: 15px;">
                 <a class="btn btn-outline-info" asp-action="download">
                     <i class="fa fa-solid fa-download"></i> Download
                 </a>
@@ -37,7 +37,8 @@
         </div>
     </div>
 </form>
-<div class="row">
+
+<div class="row mb-4">
     <div class="col-12">
         <ejs-grid id="categories-list"
                   dataSource="@Model"
@@ -57,12 +58,12 @@
 
 <script id="idCellTemplate" type="text/template">
     <div>
-        <a rel='nofollow' href="categories/details/${Id}">${Id}</a>
+        <a rel='nofollow' href="products/details/${Id}">${Id}</a>
     </div>
 </script>
 
 <script id="stockTemplate" type="text/x-template">
-    <div class="template_checkbox">
+    <div class="template_checkbox text-center">
         ${if(LowQuantityAmount > QuantityInStock)}
             <p class="text-danger">${QuantityInStock}</p>
 

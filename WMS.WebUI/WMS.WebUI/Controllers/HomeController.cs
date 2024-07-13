@@ -41,9 +41,19 @@ public class HomeController : Controller
     {
         return statusCode switch
         {
-            (int)HttpStatusCode.NotFound => RedirectToAction("NotFound", "Errors"),
-            (int)HttpStatusCode.InternalServerError => RedirectToAction("InternalError", "Errors"),
+            (int)HttpStatusCode.NotFound => RedirectToAction("NotFound"),
+            (int)HttpStatusCode.InternalServerError => RedirectToAction("InternalError"),
             _ => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier })
         };
+    }
+
+    public ActionResult NotFound()
+    {
+        return View();
+    }
+
+    public ActionResult InternalError()
+    {
+        return View();
     }
 }
