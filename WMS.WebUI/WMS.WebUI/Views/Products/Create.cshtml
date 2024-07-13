@@ -9,21 +9,22 @@
                           value="@ViewBag.SelectedCategoryId"
                           placeholder="Select a category"
                           name="CategoryId"
+                          floatLabelType="Auto"
                           width="50%">
                 <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
             </ejs-combobox>
-            <ejs-textbox id="name" name="Name" placeholder="Product Name" width="50%"></ejs-textbox>
+            <ejs-textbox id="name" name="Name" placeholder="Product Name" floatLabelType="Auto" width="50%"></ejs-textbox>
         </div>
         <div class="form-group d-flex gap-5">
-            <ejs-numerictextbox id="sale-price" name="SalePrice" placeholder="Sale Price" width="50%"></ejs-numerictextbox>
-            <ejs-numerictextbox id="supply-price" name="SupplyPrice" placeholder="Supply Price" width="50%"></ejs-numerictextbox>
+            <ejs-numerictextbox id="sale-price" name="SalePrice" floatLabelType="Auto" format="c2" min="0" value="0" placeholder="Sale Price" width="50%"></ejs-numerictextbox>
+            <ejs-numerictextbox id="supply-price" name="SupplyPrice" floatLabelType="Auto" format="c2" min="0" value="0" placeholder="Supply Price" width="50%"></ejs-numerictextbox>
         </div>
         <div class="form-group d-flex gap-5">
-            <ejs-numerictextbox id="in-stock" name="QuantityInStock" placeholder="Quantity In Stock" width="50%"></ejs-numerictextbox>
-            <ejs-numerictextbox id="low-quantity" name="LowQuantityAmount" placeholder="Low Quantity Amount" width="50%"></ejs-numerictextbox>
+            <ejs-numerictextbox id="in-stock" name="QuantityInStock" floatLabelType="Auto" min="0" value="0" placeholder="Quantity In Stock" width="50%"></ejs-numerictextbox>
+            <ejs-numerictextbox id="low-quantity" name="LowQuantityAmount" floatLabelType="Auto" min="0" value="0" placeholder="Low Quantity Amount" width="50%"></ejs-numerictextbox>
         </div>
         <div class="form-group">
-            <ejs-textarea id="description" name="Description" placeholder="Description"></ejs-textarea>
+            <ejs-textarea id="description" name="Description" floatLabelType="Auto" placeholder="Description"></ejs-textarea>
         </div>
 
         <ejs-button id="submit" content="Submit" class="btn-success"></ejs-button>

@@ -156,42 +156,42 @@ public class MockDashboardStore : IDashboardStore
                 Id = 1,
                 Amount = 500,
                 Date = DateTime.Now,
-                Type = "Sale"
+                Type = TransactionType.Sale
             },
             new TransactionView
             {
                 Id = 2,
                 Amount = 300,
                 Date = DateTime.Now,
-                Type = "Sale"
+                Type = TransactionType.Sale
             },
             new TransactionView
             {
                 Id = 3,
                 Amount = 459,
                 Date = DateTime.Now,
-                Type = "Supply"
+                Type = TransactionType.Supply
             },
             new TransactionView
             {
                 Id = 4,
                 Amount = 500,
                 Date = DateTime.Now,
-                Type = "Supply"
+                Type = TransactionType.Supply
             },
             new TransactionView
             {
                 Id = 5,
                 Amount = 250,
                 Date = DateTime.Now,
-                Type = "Refund"
+                Type = TransactionType.Refund
             },
             new TransactionView
             {
                 Id = 7,
                 Amount = 200,
                 Date = DateTime.Now,
-                Type = "Sale"
+                Type = TransactionType.Sale
             },
         };
 

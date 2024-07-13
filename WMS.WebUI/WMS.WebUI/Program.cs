@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
+builder.Services.AddScoped<ITransactionsStore, TransactionsStore>();
 builder.Services.AddSyncfusion(builder.Configuration);
 
 var app = builder.Build();
