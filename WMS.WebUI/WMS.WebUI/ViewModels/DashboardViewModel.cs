@@ -70,6 +70,21 @@ public class TransactionView
     public DateTime Date { get; set; }
 }
 
+public class CreateTransactionViewModel
+{
+    public TransactionType Type { get; set; }
+    public int PartnerId { get; set; }
+    public DateTime Date { get; set; }
+    public List<TransactionItem> Items { get; set; }
+}
+
+public class TransactionItem
+{
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+}
+
 public enum TransactionType
 {
     [EnumMember(Value = "Sale")]

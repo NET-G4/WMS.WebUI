@@ -11,7 +11,7 @@ public class TransactionsStore : ITransactionsStore
     public TransactionsStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri("https://localhost:44389/api/");
     }
 
     public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)
@@ -38,6 +38,16 @@ public class TransactionsStore : ITransactionsStore
 
         await Task.WhenAll(customersTask, suppliersTask);
 
+        customersTask.Result!.ForEach(el => el.Type = PartnerType.Customer);
+        suppliersTask.Result!.ForEach(el => el.Type = PartnerType.Supplier);
+
         return [.. customersTask.Result, .. suppliersTask.Result];
+    }
+
+    public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
+    {
+        var transactionNew = new TransactionView();
+
+        return transactionNew;
     }
 }

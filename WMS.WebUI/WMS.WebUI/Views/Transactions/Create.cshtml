@@ -1,52 +1,178 @@
 ﻿@model WMS.WebUI.ViewModels.TransactionView
+@using System.Collections.Generic
 
 <div class="row m-5">
-    <form id="product-form" class="d-flex flex-column gap-4" asp-action="Create">
-        <h3 class="text-center">Create Product</h3>
+    <div id="product-form" class="d-flex flex-column gap-4">
+        <h3 class="text-center">Create Transaction</h3>
         <div class="form-group d-flex gap-5">
             <ejs-combobox id="types"
                           dataSource="@ViewBag.Types"
                           value="@ViewBag.SelectedType"
                           placeholder="Select Type"
-                          name="TransactionType"
+                          name="Type"
                           floatLabelType="Auto"
-                          width="50%">
+                          change="onSelectedTypeChanged">
             </ejs-combobox>
             <ejs-combobox id="partners"
                           dataSource="@ViewBag.Partners"
                           value="@ViewBag.SelectedPartnerId"
                           placeholder="Select Partner"
                           name="PartnerId"
-                          floatLabelType="Auto"
-                          width="50%">
+                          floatLabelType="Auto">
                 <e-combobox-fields value="Id" text="FullName"></e-combobox-fields>
             </ejs-combobox>
+            <div style="display: none;">
+                <ejs-combobox id="partners-copy"
+                          dataSource="@ViewBag.Partners"
+                          value="@ViewBag.SelectedPartnerId"
+                          placeholder="Select Partner"
+                          name="PartnerId"
+                          floatLabelType="Auto">
+                    <e-combobox-fields value="Id" text="FullName"></e-combobox-fields>
+                </ejs-combobox>
+            </div>
+            <ejs-datetimepicker id="transaction-date" value="@DateTime.Now" name="Date" placeholder="Select Date" floatLabelType="Auto"></ejs-datetimepicker>
         </div>
         <div class="form-group d-flex gap-5">
             <ejs-combobox id="products"
                           dataSource="@ViewBag.Products"
                           placeholder="Select Product"
-                          name="Products"
-                          floatLabelType="Auto"
-                          width="50%">
+
+                          name="Products">
                 <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
             </ejs-combobox>
-            <ejs-button id="addProduct" content="Add" width="50%"></ejs-button>
+            <ejs-button id="addProduct" content="Add" class="ml-auto" cssClass="e-success"></ejs-button>
         </div>
         <div class="form-group d-flex gap-5">
-            <ejs-grid id="itemsList"
+            <ejs-grid id="transaction-items"
                       dataSource="@ViewBag.TransactionItems"
                       gridLines="Vertical"
                       allowSorting="true">
+                <e-grid-editsettings allowDeleting="true" allowEditing="true" mode="Normal"></e-grid-editsettings>
                 <e-grid-columns>
-                    <e-grid-column headerText="Id" field="Id" typeof="Text"></e-grid-column>
-                    <e-grid-column headerText="Name" field="Name" typeof="Text"></e-grid-column>
-                    <e-grid-column headerText="Price" field="UnitPrice" typeof="Text" format="c2"></e-grid-column>
-                    <e-grid-column headerText="Quantity" field="Quantity" typeof="Number"></e-grid-column>
+                    <e-grid-column headerText="Id" field="ProductId" isPrimaryKey="true" typeof="Text"></e-grid-column>
+                    <e-grid-column headerText="Name" field="Name" allowEditing="false" typeof="Text"></e-grid-column>
+                    <e-grid-column headerText="Unit Price" field="UnitPrice" typeof="Text" format="c2"></e-grid-column>
+                    <e-grid-column headerText="Quantity" field="Quantity" typeof="Number" editType="numericedit"></e-grid-column>
                 </e-grid-columns>
             </ejs-grid>
         </div>
+        <div class="form-group d-flex gap-5">
+            <p class="ml-auto" id="total-due">0</p>
+        </div>
 
-        <ejs-button id="submit" content="Submit" class="btn-success"></ejs-button>
-    </form>
+        <ejs-button id="submit" content="Submit" cssClass="e-success"></ejs-button>
+    </div>
 </div>
+
+<script>
+    document.getElementById('addProduct').onclick = function () {
+        const grid = document.getElementById("transaction-items").ej2_instances[0];
+        const productsList = document.getElementById('products').ej2_instances[0];
+        const selectedProduct = productsList.dataSource.find(el => el.Id == productsList.value);
+        
+        const item = {
+            ProductId: selectedProduct.Id,
+            Name: selectedProduct.Name,
+            Quantity: 1,
+            UnitPrice: selectedProduct.SalePrice
+        };
+
+        if (grid.dataSource.some(el => el.ProductId == item?.ProductId)) {
+            return;
+        }
+
+        grid.dataSource.unshift(item);
+        grid.refresh();
+
+        console.log(grid.dataSource);
+        const totalDue = grid.dataSource.map(el => el.Quantity * el.UnitPrice).reduce((current, previous) => previous + current);
+        console.log(totalDue);
+        let formatter = Intl.NumberFormat('en', { notation: 'compact' });
+        document.getElementById('total-due').innerHTML = formatter.format(totalDue);
+    };
+
+    // // submit sale
+    document.getElementById('submit').onclick = function (e) {
+        e.stopPropagation();
+
+        const type = document.getElementById('types').ej2_instances[0].value;
+        const partnerId = document.getElementById('partners').ej2_instances[0].value;
+        const selectedDate = document.getElementById('transaction-date').ej2_instances[0].value;
+        const items = document.getElementById("transaction-items").ej2_instances[0].dataSource;
+
+        const newSale = {
+            Date: selectedDate,
+            PartnerId: partnerId,
+            Type: type
+        };
+        console.log(newSale);
+        $.ajax({
+            url: '@Url.Action("Create", "Transactions")',
+            type: 'POST',
+            data: JSON.stringify(newSale),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                console.log('success: ');
+                console.log(response);
+                window.location.href = response.redirectToUrl;
+            },
+            error: function (data) {
+                console.log('error: ');
+                console.log(data);
+                alert('There was an error saving creating new sale! Please, try again.');
+            }
+        });
+    }
+
+
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const options = {
+    //         rules: {
+    //             'datevalue': { required: true }
+    //         },
+    //         customPlacement: (inputElement, errorElement) => {
+    //             //to place the error message in custom position
+    //             //inputElement - target element where the error text will be appended
+    //             //errorElement - error text which will be displayed.
+    //             inputElement.parentElement.parentElement.appendChild(errorElement);
+    //         }
+    //     };
+    //     const formObject = new ej.inputs.FormValidator('#sale-date', options);
+    // });
+
+    // function dlgButtonClick() {
+    //     const dialogObj = document.getElementById('dialog').ej2_instances[0];
+    //     dialogObj.hide();
+    // }
+
+    // function onSelectedProductChanged() {
+    //     const productsList = document.getElementById('products-list').ej2_instances[0];
+    //     const selectedProduct = productsList.dataSource.find(el => el.Id == productsList.value);
+    //     document.getElementById('item-price').ej2_instances[0].value = selectedProduct.SupplyPrice;
+    //     document.getElementById('item-quantity').ej2_instances[0].max = selectedProduct.QuantityInStock;
+    // }
+
+    function onSelectedTypeChanged() {
+        const selectedValue = document.getElementById('types').ej2_instances[0].value;
+        const partners = document.getElementById('partners').ej2_instances[0];
+        const partnersCopy = document.getElementById('partners-copy').ej2_instances[0].dataSource;
+
+        if (selectedValue == 'Sale') {
+            const customers = partnersCopy.filter(el => el.Type == 0);
+            partners.dataSource = customers; // 50 -> 25
+        } else {
+            const suppliers = partnersCopy.filter(el => el.Type == 1);
+            partners.dataSource = suppliers;
+        }
+
+        partners.index = 0;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        onSelectedTypeChanged();
+
+        const productsList = document.getElementById('products').ej2_instances[0];
+        productsList.index = 0;
+    });
+</script>

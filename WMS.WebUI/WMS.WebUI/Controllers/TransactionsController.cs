@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WMS.WebUI.Helpers;
 using WMS.WebUI.Stores.Interfaces;
+using WMS.WebUI.ViewModels;
 
 namespace WMS.WebUI.Controllers;
 
@@ -32,9 +33,23 @@ public class TransactionsController : Controller
         await Task.WhenAll(partnersTask, productsTask);
 
         ViewBag.Types = new string[] { "Sale", "Supply" };
+        ViewBag.SelectedType = "Sale";
         ViewBag.Partners = partnersTask.Result;
         ViewBag.Products= productsTask.Result.Data;
 
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(
+        [FromBody] CreateTransactionViewModel data)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        _transactionsStore.Create(null);
         return View();
     }
 }

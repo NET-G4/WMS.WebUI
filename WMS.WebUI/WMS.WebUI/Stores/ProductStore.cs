@@ -13,7 +13,7 @@ namespace WMS.WebUI.Stores
         public ProductStore()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7097/api/");
+            _httpClient.BaseAddress = new Uri("https://localhost:44389/api/");
         }
 
         public async Task<PaginatedResponse<ProductViewModel>> GetProductsAsync(string? search = null, int? categoryId = null)

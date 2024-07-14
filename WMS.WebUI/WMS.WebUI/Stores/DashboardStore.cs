@@ -11,7 +11,7 @@ public class DashboardStore : IDashboardStore
     public DashboardStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri("https://localhost:44389/api/");
     }
 
     public async Task<DashboardViewModel> Get()
