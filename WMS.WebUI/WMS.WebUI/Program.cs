@@ -12,10 +12,11 @@ builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
 builder.Services.AddScoped<ICustomerStore,CustomerStore>();
 builder.Services.AddScoped<ISupplierStore,SupplierStore>();
-
+builder.Services.AddScoped<ISaleStore,SaleStore>();
+builder.Services.AddScoped<ISupplyStore, SupplyStore>();
 builder.Services.AddSingleton<ApiClient>();
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVJwWmFZfVpgfF9DaFZQTGYuP1ZhSXxXdkNjUH9WdXxUTmNeVE0="); ;
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("Keys:Syncfusion")); 
 
 var app = builder.Build();
 

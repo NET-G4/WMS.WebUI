@@ -1,11 +1,10 @@
-﻿@using WMS.WebUI.ViewModels.CustomerViewModels
-@model IEnumerable<CustomerDisplayViewModel>
+﻿@using WMS.WebUI.ViewModels.SupplyViewModels
+@model IEnumerable<SupplyViewModel>
 
-<div class="mb-4 ms-6">
+<div class="mb-4 ms-2">
     <form asp-action="Index" method="get">
-        <div class="row g-10 align-items-center">
-
-            <div class="col-md-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-3">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search..." name="searchString" value="@ViewBag.SearchString" />
                     <button type="submit" class="btn btn-primary">
@@ -13,17 +12,16 @@
                     </button>
                 </div>
             </div>
+            <div class="col-md-2">
+                <input type="date" class="form-control" placeholder="From date" name="fromDate" value="@ViewBag.FromDate" />
+            </div>
 
             <div class="col-md-2">
-                <input type="number" class="form-control" placeholder="Balance greater than" name="balanceGreaterThan" value="@ViewBag.BalanceGreaterThan" />
-            </div>
-            
-            <div class="col-md-2">
-                <input type="number" class="form-control" placeholder="Balance less than" name="balanceLessThan" value="@ViewBag.BalanceLessThan" />
+                <input type="date" class="form-control" placeholder="To date" name="toDate" value="@ViewBag.ToDate" />
             </div>
 
             <div class="col-md-1 d-flex justify-content-end">
-                <a asp-action="Create" asp-controller="customers" class="btn btn-outline-success">New +</a>
+                <a asp-action="Create" asp-controller="Supplies" class="btn btn-outline-success">New +</a>
             </div>
 
         </div>
@@ -39,9 +37,10 @@
                       allowSorting="true">
                 <e-grid-columns>
                     <e-grid-column headerText="Id" field="Id" template="#idCellTemplate" type="Text"></e-grid-column>
-                    <e-grid-column headerText="Full Name" field="FullName" type="Text"></e-grid-column>
-                    <e-grid-column headerText="Phone Number" field="PhoneNumber" type="Text"></e-grid-column>
-                    <e-grid-column headerText="Balance" field="Balance" format="C" type="Number"></e-grid-column>
+                    <e-grid-column headerText="Supplier" field="Supplier" type="Text"></e-grid-column>
+                    <e-grid-column headerText="Total due" field="TotalDue" format="C" type="Number"></e-grid-column>
+                    <e-grid-column headerText="Total paid" field="TotalPaid" format="C" type="Number"></e-grid-column>
+                    <e-grid-column headerText="Date" field="Date" type="Date"></e-grid-column>
                 </e-grid-columns>
             </ejs-grid>
         </div>
@@ -73,6 +72,6 @@
 
 <script id="idCellTemplate" type="text/template">
     <div>
-        <a rel="nofollow" href="Customers/details/${Id}">${Id}</a>
+        <a rel="nofollow" href="Supplies/details/${Id}">${Id}</a>
     </div>
 </script>

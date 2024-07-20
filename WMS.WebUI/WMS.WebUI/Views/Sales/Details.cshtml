@@ -1,0 +1,46 @@
+﻿@model WMS.WebUI.ViewModels.SaleViewModels.SaleViewModel
+@{
+    ViewData["Title"] = "Sale Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="mb-4">
+        <h3>Sale Information</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Sale ID</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">Date</dt>
+            <dd class="col-sm-9">@Model.Date.ToString("dd MMM yyyy")</dd>
+
+            <dt class="col-sm-3">Customer</dt>
+            <dd class="col-sm-9">@Model.Customer</dd>
+
+            <dt class="col-sm-3">Total Due</dt>
+            <dd class="col-sm-9">@Model.TotalDue.ToString("C")</dd>
+
+            <dt class="col-sm-3">Total Paid</dt>
+            <dd class="col-sm-9">@Model.TotalPaid.ToString("C")</dd>
+        </dl>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ejs-grid id="customers-list"
+                      dataSource="@Model.SaleItems"
+                      gridLines="Vertical"
+                      allowSorting="true">
+                <e-grid-columns>
+                    <e-grid-column headerText="Quantity" field="Quantity" type="Text"></e-grid-column>
+                    <e-grid-column headerText="Unit price" field="UnitPrice" format="C" type="Number"></e-grid-column>
+                    <e-grid-column headerText="Product" field="Product" type="Text"></e-grid-column>
+                </e-grid-columns>
+            </ejs-grid>
+        </div>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-primary mt-4">Back to List</a>

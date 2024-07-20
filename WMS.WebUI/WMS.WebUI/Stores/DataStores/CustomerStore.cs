@@ -13,25 +13,6 @@ namespace WMS.WebUI.Stores.DataStores;
 public class CustomerStore(ApiClient apiClient) : ICustomerStore
 {
     private readonly ApiClient _apiClient = apiClient;
-    public async Task<CustomerDisplayViewModel> Create(CustomerActionViewModel customer)
-    {
-        var createdCustomer = await _apiClient.PostAsync<CustomerDisplayViewModel
-            ,CustomerActionViewModel>(ApiResourceConstants.Customers,customer);
-
-        return createdCustomer;
-    }
-
-    public async Task Delete(int id)
-    {
-        await _apiClient.DeleteAsync(ApiResourceConstants.Customers,id);
-    }
-
-    public async Task<CustomerDisplayViewModel> GetById(int id)
-    {
-        var customer = await _apiClient.GetAsync<CustomerDisplayViewModel>(ApiResourceConstants.Customers + "/" + id);
-        return customer;
-    }
-
     public async Task<PaginatedApiResponse<CustomerDisplayViewModel>> GetCustomers(CustomerQueryParameters queryParameters)
     {
         var query = BuildQueryParameters(queryParameters);
@@ -44,11 +25,29 @@ public class CustomerStore(ApiClient apiClient) : ICustomerStore
 
         return customers;
     }
+    public async Task<CustomerDisplayViewModel> GetById(int id)
+    {
+        var customer = await _apiClient.GetAsync<CustomerDisplayViewModel>(ApiResourceConstants.Customers + "/" + id);
+        return customer;
+    }
+
+    public async Task<CustomerDisplayViewModel> Create(CustomerActionViewModel customer)
+    {
+        var createdCustomer = await _apiClient.PostAsync<CustomerDisplayViewModel
+            ,CustomerActionViewModel>(ApiResourceConstants.Customers,customer);
+
+        return createdCustomer;
+    }
 
     public async Task Update(CustomerActionViewModel customer)
     {
         await _apiClient.PutAsync(ApiResourceConstants.Customers + "/" + customer.Id, customer);
     }
+    public async Task Delete(int id)
+    {
+        await _apiClient.DeleteAsync(ApiResourceConstants.Customers,id);
+    }
+
     private string BuildQueryParameters(CustomerQueryParameters queryParameters)
     {
         var query = new StringBuilder();
