@@ -1,4 +1,8 @@
-﻿using WMS.WebUI.Mappings;
+﻿using Newtonsoft.Json;
+using Syncfusion.EJ2.Diagrams;
+using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
+using WMS.WebUI.Mappings;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -11,14 +15,14 @@ public class TransactionsStore : ITransactionsStore
     public TransactionsStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:44389/api/");
+        _client.BaseAddress = new Uri("https://localhost:7097/api/");
     }
 
     public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)
     {
         var salesTask = _client.GetFromJsonAsync<List<SaleViewModel>>($"sales?search={search}");
-        var suppliesTask = _client.GetFromJsonAsync<List<SupplyViewModel>>($"supply?search={search}");
-        
+        var suppliesTask = _client.GetFromJsonAsync<List<SupplyViewModel>>($"supplies?search={search}");
+
         await Task.WhenAll(salesTask, suppliesTask);
 
         var sales = salesTask.Result;
@@ -44,10 +48,79 @@ public class TransactionsStore : ITransactionsStore
         return [.. customersTask.Result, .. suppliersTask.Result];
     }
 
+    public async Task<TransactionView> GetByIdAndTypeAsync(int id, TransactionType type)
+    {
+        TransactionView transaction;
+
+        if (type == TransactionType.Sale)
+        {
+            var sale = await _client.GetFromJsonAsync<SaleViewModel>($"sales/{id}");
+            transaction = new TransactionView
+            {
+                Id = sale.Id,
+                Date = sale.Date,
+                PartnerId = sale.CustomerId,
+                Partner = sale.Customer,
+                Items = sale.SaleItems,
+                TotalDue = sale.TotalDue,
+            };
+        }
+        else
+        {
+            var supply = await _client.GetFromJsonAsync<SupplyViewModel>($"supplies/{id}");
+            transaction = new TransactionView
+            {
+                Id = supply.Id,
+                Date = supply.Date,
+                PartnerId = supply.SupplierId,
+                Partner = supply.Supplier,
+                Items = supply.SupplyItems,
+                TotalDue = supply.TotalDue,
+            };
+        }
+
+        return transaction;
+    }
+                
     public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
     {
-        var transactionNew = new TransactionView();
+        HttpResponseMessage result;
+        var endpoint = transaction.Type == TransactionType.Sale
+            ? "sales"
+            : "supplies";
+        object data;
 
-        return transactionNew;
+        if (transaction.Type == TransactionType.Sale)
+        {
+            data = new
+            {
+                CustomerId = transaction.PartnerId,
+                Date = transaction.Date,
+                SaleItems = transaction.Items
+            };              
+        }
+        else
+        {
+            data = new
+            {
+                SupplierId = transaction.PartnerId,
+                Date = transaction.Date,
+                SupplyItems = transaction.Items
+            };
+        }
+
+        result = await _client.PostAsJsonAsync(endpoint, data);
+        result.EnsureSuccessStatusCode();
+
+        var json = await result.Content.ReadAsStringAsync();
+        var createdTransaction = JsonConvert.DeserializeObject<TransactionView>(json);
+
+        if (createdTransaction is null)
+        {
+            throw new InvalidCastException();
+        }
+        
+        createdTransaction.Type = transaction.Type;
+        return createdTransaction;
     }
 }

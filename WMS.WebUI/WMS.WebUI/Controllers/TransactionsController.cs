@@ -49,7 +49,25 @@ public class TransactionsController : Controller
             return BadRequest();
         }
 
-        _transactionsStore.Create(null);
-        return View();
+        var createdTransaction = await _transactionsStore.Create(data);
+        var result = new 
+        { 
+            redirectToUrl = Url.Action(
+                "Details", 
+                new 
+                { 
+                    id = createdTransaction.Id, 
+                    type = (int)createdTransaction.Type
+                })
+        };
+
+        return Json(result);
+    }
+
+    public async Task<IActionResult> Details(int id, TransactionType type)
+    {
+        var transaction = await _transactionsStore.GetByIdAndTypeAsync(id, type);
+
+        return View(transaction);
     }
 }

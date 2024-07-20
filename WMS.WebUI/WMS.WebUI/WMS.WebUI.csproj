@@ -10,4 +10,8 @@
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="26.1.40" />
     <PackageReference Include="Syncfusion.Licensing" Version="26.1.40" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

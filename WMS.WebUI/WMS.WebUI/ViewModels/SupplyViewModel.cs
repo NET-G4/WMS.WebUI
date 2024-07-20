@@ -9,4 +9,6 @@ public class SupplyViewModel
 
     public int SupplierId { get; set; }
     public string Supplier { get; set; }
+
+    public List<TransactionItem> SupplyItems { get; set; }
 }

@@ -9,7 +9,7 @@ public static class SalesMappings
         return new TransactionView
         {
             Id = sale.Id,
-            Amount = sale.TotalPaid,
+            TotalDue = sale.TotalPaid,
             Date = sale.Date,
             Partner = sale.Customer,
             PartnerId = sale.CustomerId,

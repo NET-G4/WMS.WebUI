@@ -13,7 +13,7 @@ public class CategoryStore : ICategoryStore
     public CategoryStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:44389/api/");
+        _client.BaseAddress = new Uri("https://localhost:7097/api/");
     }
 
     public async Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category)

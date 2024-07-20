@@ -9,7 +9,7 @@ public static class SupplyMappings
         return new TransactionView
         {
             Id = supply.Id,
-            Amount = supply.TotalPaid,
+            TotalDue = supply.TotalPaid,
             Date = supply.Date,
             Partner = supply.Supplier,
             PartnerId = supply.SupplierId,

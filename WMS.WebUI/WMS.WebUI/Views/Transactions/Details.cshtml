@@ -1,0 +1,66 @@
+﻿@model WMS.WebUI.ViewModels.TransactionView
+
+<div class="m-5">
+    <h4>Category details</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Partner)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Partner)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalDue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalDue)
+        </dd>
+    </dl>
+
+    <div>
+        <ejs-grid id="transaction-items"
+                  dataSource="@Model.Items"
+                  gridLines="Vertical"
+                  allowSorting="true">
+            <e-grid-editsettings allowDeleting="true" allowEditing="true" mode="Normal"></e-grid-editsettings>
+            <e-grid-columns>
+                <e-grid-column headerText="Id" field="ProductId" isPrimaryKey="true" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Name" field="Product" allowEditing="false" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Unit Price" field="UnitPrice" typeof="Text" format="c2"></e-grid-column>
+                <e-grid-column headerText="Quantity" field="Quantity" typeof="Number" editType="numericedit"></e-grid-column>
+            </e-grid-columns>
+        </ejs-grid>
+    </div>
+</div>
+
+<div class="m-5">
+    <a asp-action="Index" class="btn btn-info fa-solid fa-arrow-left">
+        Back
+    </a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning fa-solid fa-pen">
+        Edit
+    </a>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-outline-danger fa-solid fa-trash">
+        Delete
+    </a>
+</div>

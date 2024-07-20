@@ -9,4 +9,6 @@ public class SaleViewModel
 
     public string Customer { get; init; }
     public int CustomerId { get; init; }
+
+    public List<TransactionItem> SaleItems { get; set; }
 }
