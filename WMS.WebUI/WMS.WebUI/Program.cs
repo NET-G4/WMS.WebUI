@@ -1,4 +1,5 @@
 using WMS.WebUI.Services;
+using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.DataStores;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.Stores.Mocks;
@@ -13,6 +14,7 @@ builder.Services.AddScoped<IProductsStore, ProductStore>();
 builder.Services.AddScoped<ICustomerStore,CustomerStore>();
 builder.Services.AddScoped<ISupplierStore,SupplierStore>();
 builder.Services.AddScoped<ISaleStore,SaleStore>();
+builder.Services.AddScoped<ITransactionsStore,TransactionsStore>();
 builder.Services.AddScoped<ISupplyStore, SupplyStore>();
 builder.Services.AddSingleton<ApiClient>();
 
