@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace WMS.WebUI.ViewModels;
 
@@ -61,7 +62,35 @@ public class SplineChart
 public class TransactionView
 {
     public int Id { get; set; }
-    public string Type { get; set; }
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
+    public int PartnerId { get; set; }
+    public string Partner { get; set; }
     public DateTime Date { get; set; }
+}
+
+public class CreateTransactionViewModel
+{
+    public TransactionType Type { get; set; }
+    public int PartnerId { get; set; }
+    public DateTime Date { get; set; }
+    public List<TransactionItem> Items { get; set; }
+}
+
+public class TransactionItem
+{
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+}
+
+public enum TransactionType
+{
+    [EnumMember(Value = "Sale")]
+    Sale,
+    [EnumMember(Value = "Supply")]
+    Supply,
+    [EnumMember(Value = "Refund")]
+    Refund
 }

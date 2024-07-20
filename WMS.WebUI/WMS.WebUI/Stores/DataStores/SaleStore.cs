@@ -6,6 +6,7 @@ using WMS.WebUI.Models.PaginatedResponse;
 using WMS.WebUI.QueryParams;
 using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
+using WMS.WebUI.ViewModels;
 using WMS.WebUI.ViewModels.SaleViewModels;
 
 namespace WMS.WebUI.Stores.DataStores;
@@ -25,10 +26,11 @@ public class SaleStore(ApiClient apiClient) : ISaleStore
         return sale;
     }
 
-    public Task<SaleViewModel> Create(SaleViewModel sale)
+    public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
     {
-        var createdSale = _apiClient.PostAsync<SaleViewModel, SaleViewModel>(ApiResourceConstants.Sales, sale);
-        return createdSale;
+        var transactionNew = new TransactionView();
+
+        return transactionNew;
     }
     public async Task Update(SaleViewModel sale)
     {
