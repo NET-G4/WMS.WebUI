@@ -10,10 +10,10 @@ namespace WMS.WebUI.Stores
     {
         private readonly HttpClient _httpClient;
         
-        public ProductStore()
+        public ProductStore(IConfiguration configuration)
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7097/api/");
+            _httpClient.BaseAddress = new Uri(configuration["WMSApiUrl"]);
         }
 
         public async Task<PaginatedResponse<ProductViewModel>> GetProductsAsync(string? search = null, int? categoryId = null)

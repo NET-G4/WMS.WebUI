@@ -12,10 +12,10 @@ public class TransactionsStore : ITransactionsStore
 {
     private readonly HttpClient _client;
 
-    public TransactionsStore()
+    public TransactionsStore(IConfiguration configuration)
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(configuration["WMSApiUrl"]);
     }
 
     public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)

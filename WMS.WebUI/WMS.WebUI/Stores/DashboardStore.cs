@@ -8,10 +8,10 @@ public class DashboardStore : IDashboardStore
 {
     private readonly HttpClient _client;
 
-    public DashboardStore()
+    public DashboardStore(IConfiguration configuration)
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(configuration["WMSApiUrl"]);
     }
 
     public async Task<DashboardViewModel> Get()
