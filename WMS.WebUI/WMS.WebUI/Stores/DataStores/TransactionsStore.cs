@@ -36,15 +36,15 @@ public class TransactionsStore : ITransactionsStore
 
     public async Task<List<PartnerViewModel>> GetPartnersAsync()
     {
-        var customersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("customers");
-        var suppliersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("suppliers");
+        var customersTask = _client.GetFromJsonAsync<PaginatedApiResponse<PartnerViewModel>>("customers");
+        var suppliersTask = _client.GetFromJsonAsync<PaginatedApiResponse<PartnerViewModel>>("suppliers");
 
         await Task.WhenAll(customersTask, suppliersTask);
 
-        customersTask.Result!.ForEach(el => el.Type = PartnerType.Customer);
-        suppliersTask.Result!.ForEach(el => el.Type = PartnerType.Supplier);
+        customersTask.Result!.Data.ForEach(el => el.Type = PartnerType.Customer);
+        suppliersTask.Result!.Data.ForEach(el => el.Type = PartnerType.Supplier);
 
-        return [.. customersTask.Result, .. suppliersTask.Result];
+        return [.. customersTask.Result.Data, .. suppliersTask.Result.Data];
     }
 
     public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
