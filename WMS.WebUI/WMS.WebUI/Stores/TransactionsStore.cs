@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using WMS.WebUI.Mappings;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.PartnerViewModels;
 
 namespace WMS.WebUI.Stores;
 
@@ -34,20 +35,6 @@ public class TransactionsStore : ITransactionsStore
 
         return transactions;
     }
-
-    public async Task<List<PartnerViewModel>> GetPartnersAsync()
-    {
-        var customersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("customers");
-        var suppliersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("suppliers");
-
-        await Task.WhenAll(customersTask, suppliersTask);
-
-        customersTask.Result!.ForEach(el => el.Type = PartnerType.Customer);
-        suppliersTask.Result!.ForEach(el => el.Type = PartnerType.Supplier);
-
-        return [.. customersTask.Result, .. suppliersTask.Result];
-    }
-
     public async Task<TransactionView> GetByIdAndTypeAsync(int id, TransactionType type)
     {
         TransactionView transaction;

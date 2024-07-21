@@ -9,11 +9,15 @@ public class TransactionsController : Controller
 {
     private readonly ITransactionsStore _transactionsStore;
     private readonly IProductsStore _productsStore;
+    private readonly IPartnerStore _partnerStore;
 
-    public TransactionsController(ITransactionsStore transactionsStore, IProductsStore productsStore)
+    public TransactionsController(ITransactionsStore transactionsStore, 
+        IProductsStore productsStore,
+        IPartnerStore partnerStore)
     {
         _transactionsStore = Validator.NotNull(transactionsStore);
         _productsStore = Validator.NotNull(productsStore);
+        _partnerStore=partnerStore;
     }
 
     public async Task<IActionResult> Index(string? searchString = null, string? transactionType = null)
@@ -27,7 +31,7 @@ public class TransactionsController : Controller
 
     public async Task<IActionResult> Create()
     {
-        var partnersTask = _transactionsStore.GetPartnersAsync();
+        var partnersTask = _partnerStore.GetPartnersAsync();
         var productsTask = _productsStore.GetProductsAsync();
 
         await Task.WhenAll(partnersTask, productsTask);

@@ -2,7 +2,7 @@
 
 namespace WMS.WebUI.Mappings;
 
-public static class SalesMappings
+public static class SaleMappings
 {
     public static TransactionView ToTransaction(this SaleViewModel sale)
     {
