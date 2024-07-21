@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using WMS.WebUI.Constants;
 using WMS.WebUI.Models;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
@@ -13,7 +14,7 @@ namespace WMS.WebUI.Stores
         public ProductStore()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7097/api/");
+            _httpClient.BaseAddress = new Uri(ApiConstants.API_URL);
         }
 
         public async Task<PaginatedResponse<ProductViewModel>> GetProductsAsync(string? search = null, int? categoryId = null)

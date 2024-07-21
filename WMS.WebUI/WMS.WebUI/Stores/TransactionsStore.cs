@@ -2,6 +2,7 @@
 using Syncfusion.EJ2.Diagrams;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
+using WMS.WebUI.Constants;
 using WMS.WebUI.Mappings;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
@@ -15,7 +16,7 @@ public class TransactionsStore : ITransactionsStore
     public TransactionsStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(ApiConstants.API_URL);
     }
 
     public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)

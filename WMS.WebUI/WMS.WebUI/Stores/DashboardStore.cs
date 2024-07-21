@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using WMS.WebUI.Constants;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -11,7 +12,7 @@ public class DashboardStore : IDashboardStore
     public DashboardStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(ApiConstants.API_URL);
     }
 
     public async Task<DashboardViewModel> Get()

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using WMS.WebUI.Constants;
 using WMS.WebUI.Models;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
@@ -13,7 +14,7 @@ public class CategoryStore : ICategoryStore
     public CategoryStore()
     {
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(ApiConstants.API_URL);
     }
 
     public async Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category)
