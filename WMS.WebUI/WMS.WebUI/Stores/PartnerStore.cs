@@ -18,7 +18,7 @@ public class PartnerStore : IPartnerStore
     {
         var customersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>($"customers?search={search}");
         var suppliersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>($"suppliers?search={search}");
-
+         
         await Task.WhenAll(customersTask, suppliersTask);
 
         customersTask.Result!.ForEach(el => el.Type = PartnerType.Customer);
