@@ -29,19 +29,14 @@ public class PartnersController : Controller
 
     public async Task<IActionResult> Create()
     {
-        var partnersTask = await _partnerStore.GetPartnersAsync();
-
-
         ViewBag.Types = new string[] { "Customer", "Supplier" };
         ViewBag.SelectedType = "Customer";
-        ViewBag.Partners = partnersTask;
 
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(
-        [FromBody] CreatePartnerViewModel data)
+    public async Task<IActionResult> Create([FromBody] CreatePartnerViewModel data)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +47,7 @@ public class PartnersController : Controller
         var result = new
         {
             redirectToUrl = Url.Action(
-                "Details",
+                "Details", "Partners",
                 new
                 {
                     id = createdPartner.Id,
@@ -63,9 +58,10 @@ public class PartnersController : Controller
         return Json(result);
     }
 
-    public async Task<IActionResult> Details(int id, PartnerType type)
+
+    public async Task<IActionResult> Details(int id, int type)
     {
-        var partner = await _partnerStore.GetByIdAndTypeAsync(id, type);
+        var partner = await _partnerStore.GetByIdAndTypeAsync(id, (PartnerType)type);
 
         return View(partner);
     }

@@ -1,19 +1,65 @@
-﻿@model WMS.WebUI.ViewModels.PartnerViewModels.PartnerViewModel;
+﻿@model WMS.WebUI.ViewModels.PartnerViewModels.CreatePartnerViewModel;
 
 <div class="row m-5">
-    <form id="partner-form" class="d-flex flex-column gap-4" asp-action="Create">
+    <form class="d-flex flex-column gap-4" asp-action="Create">
         <h3 class="text-center">Create Partner</h3>
-
         <div class="form-group d-flex gap-5">
-            <ejs-numerictextbox id="" name="Balance" floatLabelType="Auto" format="c2" min="0" value="0" placeholder="Sale Price" width="50%"></ejs-numerictextbox>
+            <ejs-combobox id="types"
+                          dataSource="@ViewBag.Types"
+                          value="@ViewBag.SelectedType"
+                          placeholder="Select Type"
+                          name="Type"
+                          floatLabelType="Auto">
+            </ejs-combobox>
         </div>
         <div class="form-group d-flex gap-5">
-            <ejs-numerictextbox id="low-quantity" name="LowQuantityAmount" floatLabelType="Auto" min="0" value="0" placeholder="Low Quantity Amount" width="50%"></ejs-numerictextbox>
+            <ejs-textbox id="first-name" name="FirstName" placeholder="First Name" floatLabelType="Auto" width="50%"></ejs-textbox>
+            <ejs-textbox id="last-name" name="LastName" placeholder="Last Name" floatLabelType="Auto" width="50%"></ejs-textbox>
         </div>
-        <div class="form-group">
-            <ejs-textarea id="description" name="Description" floatLabelType="Auto" placeholder="Description"></ejs-textarea>
+        <div class="form-group d-flex gap-5">
+            <ejs-textbox id="phone" name="PhoneNumber" placeholder="Phone number" floatLabelType="Auto" width="50%"></ejs-textbox>
+            <ejs-numerictextbox id="balance" name="Balance" floatLabelType="Auto" format="c2" min="0" value="0" placeholder="Balance" width="50%"></ejs-numerictextbox>
         </div>
 
         <ejs-button id="submit" content="Submit" class="btn-success"></ejs-button>
     </form>
 </div>
+
+<script>
+    document.getElementById('submit').onclick = function (e) {
+        e.stopPropagation();
+
+        // Prevent default form submission
+        e.preventDefault();
+
+        // Get values from input fields
+        const type = document.getElementById('types').ej2_instances[0].value;
+        const firstName = document.getElementById('first-name').ej2_instances[0].value;
+        const lastName = document.getElementById('last-name').ej2_instances[0].value;
+        const phone = document.getElementById('phone').ej2_instances[0].value;
+        const balance = document.getElementById('balance').ej2_instances[0].value;
+
+        // Create the new partner object
+        const newPartner = {
+            Type: type === 'Customer' ? 0 : 1,
+            FirstName: firstName,
+            LastName: lastName,
+            Balance: balance,
+            PhoneNumber: phone,
+        };
+
+        // Send the data to the controller
+        $.ajax({
+            url: '@Url.Action("Create", "Partners")', // Make sure the URL matches your controller action
+            type: 'POST',
+            data: JSON.stringify(newPartner),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                window.location.href = response.redirectToUrl;
+            },
+            error: function (data) {
+                alert('There was an error creating new partner! Please, try again.');
+            }
+        });
+    }
+</script>
