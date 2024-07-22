@@ -101,7 +101,7 @@ public class PartnerStore : IPartnerStore
             PhoneNumber = partner.PhoneNumber,
         };
 
-        result = await _client.PostAsJsonAsync(endpoint + $"/{partner.Id}", data);
+        result = await _client.PutAsJsonAsync(endpoint + $"/{partner.Id}", data);
         result.EnsureSuccessStatusCode();
     }
 

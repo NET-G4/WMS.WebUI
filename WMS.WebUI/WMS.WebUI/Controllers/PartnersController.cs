@@ -72,12 +72,14 @@ public class PartnersController : Controller
     {
         var partner = await _partnerStore.GetByIdAndTypeAsync(id, (PartnerType)type);
 
-        return View(partner);
+        var editPartner = ParseEditPartner(partner);
+        
+        return View(editPartner);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(int id, [Bind("id, Name, Description")] EditPartnerViewModel partner)
+    public async Task<ActionResult> Edit(int id, EditPartnerViewModel partner)
     {
         try
         {
@@ -111,5 +113,23 @@ public class PartnersController : Controller
         {
             return View(); 
         }
+    }
+    private EditPartnerViewModel ParseEditPartner(PartnerViewModel partner)
+    {
+        string[] nameParts = partner.FullName.Split(new char[] { ' ' }, 2);
+
+        string firstName = nameParts[0]; // First part is the first name
+
+        // If there's more than one part, the rest is considered the last name
+        string lastName = (nameParts.Length > 1) ? nameParts[1] : "";
+
+        return new EditPartnerViewModel()
+        {
+            Id = partner.Id,
+            FirstName = firstName,
+            LastName = lastName,
+            Balance = partner.Balance,
+            PhoneNumber = partner.PhoneNumber ?? "",
+        };
     }
 }
