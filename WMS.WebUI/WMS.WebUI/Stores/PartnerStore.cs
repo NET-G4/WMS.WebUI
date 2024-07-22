@@ -26,36 +26,6 @@ public class PartnerStore : IPartnerStore
 
         return [.. customersTask.Result, .. suppliersTask.Result];
     }
-    public async Task<PartnerViewModel> Create(CreatePartnerViewModel partner)
-    {
-
-        HttpResponseMessage result;
-        var endpoint = partner.Type == PartnerType.Customer
-            ? "customers"
-            : "suppliers";
-        var data = new
-        {
-            FirstName = partner.FirstName,
-            LastName = partner.LastName,
-            Balance = partner.Balance,
-            PhoneNumber = partner.PhoneNumber,
-        };
-
-        result = await _client.PostAsJsonAsync(endpoint, data);
-        result.EnsureSuccessStatusCode();
-
-        var json = await result.Content.ReadAsStringAsync();
-        var createdPartner = JsonConvert.DeserializeObject<PartnerViewModel>(json);
-
-        if (createdPartner is null)
-        {
-            throw new InvalidCastException();
-        }
-
-        createdPartner.Type = partner.Type;
-        return createdPartner;
-    }
-
     public async Task<PartnerViewModel> GetByIdAndTypeAsync(int id, PartnerType type)
     {
         PartnerViewModel partner;
@@ -86,5 +56,63 @@ public class PartnerStore : IPartnerStore
         }
 
         return partner;
+    }
+    public async Task<PartnerViewModel> Create(CreatePartnerViewModel partner)
+    {
+        HttpResponseMessage result;
+        var endpoint = partner.Type == PartnerType.Customer
+            ? "customers"
+            : "suppliers";
+        var data = new
+        {
+            FirstName = partner.FirstName,
+            LastName = partner.LastName,
+            Balance = partner.Balance,
+            PhoneNumber = partner.PhoneNumber,
+        };
+
+        result = await _client.PostAsJsonAsync(endpoint, data);
+        result.EnsureSuccessStatusCode();
+
+        var json = await result.Content.ReadAsStringAsync();
+        var createdPartner = JsonConvert.DeserializeObject<PartnerViewModel>(json);
+
+        if (createdPartner is null)
+        {
+            throw new InvalidCastException();
+        }
+
+        createdPartner.Type = partner.Type;
+        return createdPartner;
+    }
+    public async Task UpdateAsync(EditPartnerViewModel partner)
+    {
+        HttpResponseMessage result;
+        var endpoint = partner.Type == PartnerType.Customer
+            ? "customers"
+            : "suppliers";
+
+        var data = new
+        {
+            Id = partner.Id,
+            FirstName = partner.FirstName,
+            LastName = partner.LastName,
+            Balance = partner.Balance,
+            PhoneNumber = partner.PhoneNumber,
+        };
+
+        result = await _client.PostAsJsonAsync(endpoint + $"/{partner.Id}", data);
+        result.EnsureSuccessStatusCode();
+    }
+
+    public async Task Delete(int id, PartnerType type)
+    {
+        HttpResponseMessage result;
+        var endpoint = type == PartnerType.Customer
+            ? "customers"
+            : "suppliers";
+
+        result = await _client.DeleteAsync(endpoint + $"/{id}");
+        result.EnsureSuccessStatusCode();
     }
 }

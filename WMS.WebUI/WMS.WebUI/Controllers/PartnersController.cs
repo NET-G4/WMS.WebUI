@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Reflection.Metadata.Ecma335;
 using WMS.WebUI.Helpers;
+using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 using WMS.WebUI.ViewModels.PartnerViewModels;
@@ -64,5 +67,49 @@ public class PartnersController : Controller
         var partner = await _partnerStore.GetByIdAndTypeAsync(id, (PartnerType)type);
 
         return View(partner);
+    }
+    public async Task<IActionResult> Edit(int id, int type)
+    {
+        var partner = await _partnerStore.GetByIdAndTypeAsync(id, (PartnerType)type);
+
+        return View(partner);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(int id, [Bind("id, Name, Description")] EditPartnerViewModel partner)
+    {
+        try
+        {
+            await _partnerStore.UpdateAsync(partner);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+        catch
+        {
+            return View(partner);
+        }
+    }
+    public async Task<IActionResult> Delete(int id, int type)
+    {
+        var partner = await _partnerStore.GetByIdAndTypeAsync(id, (PartnerType)type);
+
+        return View(partner);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ConfirmDelete(int id, int type)
+    {
+        try
+        {
+            await _partnerStore.Delete(id, (PartnerType)type);
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch
+        {
+            return View(); 
+        }
     }
 }
