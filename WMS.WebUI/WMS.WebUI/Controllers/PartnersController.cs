@@ -46,7 +46,7 @@ public class PartnersController : Controller
             return BadRequest();
         }
 
-        var createdPartner = await _partnerStore.Create(data);
+        var createdPartner = await _partnerStore.CreateAsync(data);
         var result = new
         {
             redirectToUrl = Url.Action(
@@ -105,7 +105,7 @@ public class PartnersController : Controller
     {
         try
         {
-            await _partnerStore.Delete(id, (PartnerType)type);
+            await _partnerStore.DeleteAsync(id, (PartnerType)type);
 
             return RedirectToAction(nameof(Index));
         }

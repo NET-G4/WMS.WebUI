@@ -7,5 +7,7 @@ public interface ITransactionsStore
 {
     Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type);
     Task<TransactionView> GetByIdAndTypeAsync(int id, TransactionType type);
-    Task<TransactionView> Create(CreateTransactionViewModel transaction);
+    Task<TransactionView> CreateAsync(CreateTransactionViewModel transaction);
+    Task UpdateAsync(TransactionView transaction);
+    Task DeleteAsync(int id,TransactionType type);
 }

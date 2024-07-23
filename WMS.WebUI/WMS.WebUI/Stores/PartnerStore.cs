@@ -57,7 +57,7 @@ public class PartnerStore : IPartnerStore
 
         return partner;
     }
-    public async Task<PartnerViewModel> Create(CreatePartnerViewModel partner)
+    public async Task<PartnerViewModel> CreateAsync(CreatePartnerViewModel partner)
     {
         HttpResponseMessage result;
         var endpoint = partner.Type == PartnerType.Customer
@@ -105,7 +105,7 @@ public class PartnerStore : IPartnerStore
         result.EnsureSuccessStatusCode();
     }
 
-    public async Task Delete(int id, PartnerType type)
+    public async Task DeleteAsync(int id, PartnerType type)
     {
         HttpResponseMessage result;
         var endpoint = type == PartnerType.Customer

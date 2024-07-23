@@ -28,6 +28,12 @@ public class TransactionsController : Controller
 
         return View(transactions);
     }
+    public async Task<IActionResult> Details(int id, TransactionType type)
+    {
+        var transaction = await _transactionsStore.GetByIdAndTypeAsync(id, type);
+
+        return View(transaction);
+    }
 
     public async Task<IActionResult> Create()
     {
@@ -53,7 +59,7 @@ public class TransactionsController : Controller
             return BadRequest();
         }
 
-        var createdTransaction = await _transactionsStore.Create(data);
+        var createdTransaction = await _transactionsStore.CreateAsync(data);
         var result = new 
         { 
             redirectToUrl = Url.Action(
@@ -67,11 +73,59 @@ public class TransactionsController : Controller
 
         return Json(result);
     }
+    public async Task<IActionResult> Edit(int id,TransactionType type)
+    {
+        var partnersTask = _partnerStore.GetPartnersAsync();
+        var productsTask = _productsStore.GetProductsAsync();
+        var transaction = _transactionsStore.GetByIdAndTypeAsync(id, type);
 
-    public async Task<IActionResult> Details(int id, TransactionType type)
+        await Task.WhenAll(partnersTask, productsTask,transaction);
+
+        ViewBag.Types = new string[] { "Sale", "Supply" };
+        ViewBag.SelectedType = "Sale";
+        ViewBag.Partners = partnersTask.Result;
+        ViewBag.Products= productsTask.Result.Data;
+
+        return View(transaction);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(
+        [FromBody] TransactionView data)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(data);
+        }
+        await _transactionsStore.UpdateAsync(data);
+        
+        var result = new
+        {
+            redirectToUrl = Url.Action(
+                "Details",
+                new
+                {
+                    id = data.Id,
+                    type = (int)data.Type
+                })
+        };
+
+        return Json(result);
+    }
+    public async Task<IActionResult> Delete(int id, TransactionType type)
     {
         var transaction = await _transactionsStore.GetByIdAndTypeAsync(id, type);
 
         return View(transaction);
     }
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    [ActionName("Delete")]
+    public async Task<IActionResult> ConfirmDelete(int id, TransactionType type)
+    {
+        await _transactionsStore.DeleteAsync(id, type);
+
+        return RedirectToAction(nameof(Index));
+    }
+
 }

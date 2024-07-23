@@ -1,7 +1,7 @@
 ﻿@model WMS.WebUI.ViewModels.TransactionView
 
 <div class="m-5">
-    <h4>Transaction details</h4>
+    <h4>Are you sure delete? </h4>
     <hr />
 
     <dl class="row">
@@ -53,14 +53,13 @@
     </div>
 </div>
 
-<div class="m-5">
-    <a asp-action="Index" class="btn btn-info fa-solid fa-arrow-left">
-        Back
-    </a>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning fa-solid fa-pen">
-        Edit
-    </a>
-    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-outline-danger fa-solid fa-trash">
-        Delete
-    </a>
-</div>
+<form asp-action="Delete" asp-controller="Transactions" class="m-5">
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-outline-info">
+            Back
+        </a>
+        <button asp-route-type="@Model.(int)Type"  asp-route-id="@Model?.Id" type="submit" class="btn btn-danger">
+            Delete
+        </button>
+    </div>
+</form>

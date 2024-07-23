@@ -7,7 +7,7 @@ public interface IPartnerStore
 {
     Task<List<PartnerViewModel>> GetPartnersAsync(string? search="", string? type = "");
     Task<PartnerViewModel> GetByIdAndTypeAsync(int id, PartnerType type);
-    Task<PartnerViewModel> Create(CreatePartnerViewModel partner);
+    Task<PartnerViewModel> CreateAsync(CreatePartnerViewModel partner);
     Task UpdateAsync(EditPartnerViewModel partner);
-    Task Delete(int id, PartnerType type);
+    Task DeleteAsync(int id, PartnerType type);
 }

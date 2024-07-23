@@ -2,6 +2,7 @@
 using Syncfusion.EJ2.Diagrams;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
+using System.Transactions;
 using WMS.WebUI.Mappings;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
@@ -69,7 +70,7 @@ public class TransactionsStore : ITransactionsStore
         return transaction;
     }
                 
-    public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
+    public async Task<TransactionView> CreateAsync(CreateTransactionViewModel transaction)
     {
         HttpResponseMessage result;
         var endpoint = transaction.Type == TransactionType.Sale
@@ -109,5 +110,45 @@ public class TransactionsStore : ITransactionsStore
         
         createdTransaction.Type = transaction.Type;
         return createdTransaction;
+    }
+    public async Task UpdateAsync(TransactionView transaction)
+    {
+        HttpResponseMessage result;
+        var endpoint = transaction.Type == TransactionType.Sale
+            ? "sales"
+            : "supplies";
+        object data;
+
+        if (transaction.Type == TransactionType.Sale)
+        {
+            data = new
+            {
+                CustomerId = transaction.PartnerId,
+                Date = transaction.Date,
+                SaleItems = transaction.Items
+            };
+        }
+        else
+        {
+            data = new
+            {
+                SupplierId = transaction.PartnerId,
+                Date = transaction.Date,
+                SupplyItems = transaction.Items
+            };
+        }
+
+        result = await _client.PutAsJsonAsync(endpoint + $"/{transaction.Id}", data);
+        result.EnsureSuccessStatusCode();
+    }
+    public async Task DeleteAsync(int id,TransactionType type)
+    {
+        HttpResponseMessage result;
+        var endpoint = type == TransactionType.Sale
+            ? "sales"
+            : "supplies";
+
+        result = await _client.DeleteAsync(endpoint + $"/{id}");
+        result.EnsureSuccessStatusCode();
     }
 }
