@@ -37,12 +37,14 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(int statusCode)
+    public IActionResult ErrorHandler(int statusCode)
     {
         return statusCode switch
         {
             (int)HttpStatusCode.NotFound => RedirectToAction("NotFound"),
-            (int)HttpStatusCode.InternalServerError => RedirectToAction("InternalError"),
+            (int)HttpStatusCode.InternalServerError => RedirectToAction("Error"),
+            (int)HttpStatusCode.Unauthorized => RedirectToAction("Login", "Account"),
+            (int)HttpStatusCode.Forbidden => RedirectToAction("Forbidden"),
             _ => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier })
         };
     }
@@ -52,7 +54,12 @@ public class HomeController : Controller
         return View();
     }
 
-    public ActionResult InternalError()
+    public ActionResult Error()
+    {
+        return View();
+    }
+
+    public ActionResult Forbidden()
     {
         return View();
     }

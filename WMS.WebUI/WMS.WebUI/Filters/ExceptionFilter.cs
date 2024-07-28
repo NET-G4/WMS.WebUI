@@ -13,12 +13,12 @@ public class ExceptionFilter : IExceptionFilter
         if (context.Exception is HttpRequestException apiException)
         {
             var code = GetStatusCode(apiException.StatusCode);
-            context.Result = new RedirectToActionResult("Error", "Home", new { statusCode = code });
+            context.Result = new RedirectToActionResult("ErrorHandler", "Home", new { statusCode = code });
             context.ExceptionHandled = true;
         }
         else
         {
-            context.Result = new RedirectToActionResult("Error", "Home", new { statusCode = 500 });
+            context.Result = new RedirectToActionResult("ErrorHandler", "Home", new { statusCode = 500 });
             context.ExceptionHandled = true;
         }
     }
@@ -27,6 +27,8 @@ public class ExceptionFilter : IExceptionFilter
         code switch
         {
             HttpStatusCode.NotFound => 404,
+            HttpStatusCode.Unauthorized => 401,
+            HttpStatusCode.Forbidden => 403,
             _ => 500
         };
 }

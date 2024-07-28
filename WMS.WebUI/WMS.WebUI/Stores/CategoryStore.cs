@@ -18,7 +18,7 @@ public class CategoryStore : ICategoryStore
     }
 
     public async Task<CategoryViewModel> CreateCategoryAsync(CategoryViewModel category)
-    {
+    {   
         var json = JsonConvert.SerializeObject(category);
         var request = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _client.PostAsync("categories", request);

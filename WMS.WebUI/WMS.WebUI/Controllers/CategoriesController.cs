@@ -44,21 +44,13 @@ public class CategoriesController : Controller
         return View();
     }
 
-    // POST: Categories/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create([Bind("Name,Description")] CategoryViewModel category)
     {
-        try
-        {
-            var createdCategory = await _categoryStore.CreateCategoryAsync(category);
+        var createdCategory = await _categoryStore.CreateCategoryAsync(category);
 
-            return RedirectToAction(nameof(Details), new { id = createdCategory.Id });
-        }
-        catch
-        {
-            return View();
-        }
+        return RedirectToAction(nameof(Details), new { id = createdCategory.Id });
     }
 
     // GET: Categories/Edit/5

@@ -1,9 +1,5 @@
-﻿using Newtonsoft.Json;
-using Syncfusion.EJ2.Diagrams;
-using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using WMS.WebUI.Constants;
-using WMS.WebUI.Mappings;
+﻿using WMS.WebUI.Mappings;
+using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
 
@@ -11,18 +7,17 @@ namespace WMS.WebUI.Stores;
 
 public class TransactionsStore : ITransactionsStore
 {
-    private readonly HttpClient _client;
+    private readonly ApiClient _client;
 
-    public TransactionsStore()
+    public TransactionsStore(ApiClient client)
     {
-        _client = new HttpClient();
-        _client.BaseAddress = new Uri(ApiConstants.API_URL);
+        _client = client;
     }
 
     public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)
     {
-        var salesTask = _client.GetFromJsonAsync<List<SaleViewModel>>($"sales?search={search}");
-        var suppliesTask = _client.GetFromJsonAsync<List<SupplyViewModel>>($"supplies?search={search}");
+        var salesTask = _client.GetAsync<List<SaleViewModel>>($"sales?search={search}");
+        var suppliesTask = _client.GetAsync<List<SupplyViewModel>>($"supplies?search={search}");
 
         await Task.WhenAll(salesTask, suppliesTask);
 
@@ -38,8 +33,8 @@ public class TransactionsStore : ITransactionsStore
 
     public async Task<List<PartnerViewModel>> GetPartnersAsync()
     {
-        var customersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("customers");
-        var suppliersTask = _client.GetFromJsonAsync<List<PartnerViewModel>>("suppliers");
+        var customersTask = _client.GetAsync<List<PartnerViewModel>>("customers");
+        var suppliersTask = _client.GetAsync<List<PartnerViewModel>>("suppliers");
 
         await Task.WhenAll(customersTask, suppliersTask);
 
@@ -55,7 +50,7 @@ public class TransactionsStore : ITransactionsStore
 
         if (type == TransactionType.Sale)
         {
-            var sale = await _client.GetFromJsonAsync<SaleViewModel>($"sales/{id}");
+            var sale = await _client.GetAsync<SaleViewModel>($"sales/{id}");
             transaction = new TransactionView
             {
                 Id = sale.Id,
@@ -68,7 +63,7 @@ public class TransactionsStore : ITransactionsStore
         }
         else
         {
-            var supply = await _client.GetFromJsonAsync<SupplyViewModel>($"supplies/{id}");
+            var supply = await _client.GetAsync<SupplyViewModel>($"supplies/{id}");
             transaction = new TransactionView
             {
                 Id = supply.Id,
@@ -85,7 +80,6 @@ public class TransactionsStore : ITransactionsStore
                 
     public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
     {
-        HttpResponseMessage result;
         var endpoint = transaction.Type == TransactionType.Sale
             ? "sales"
             : "supplies";
@@ -110,18 +104,9 @@ public class TransactionsStore : ITransactionsStore
             };
         }
 
-        result = await _client.PostAsJsonAsync(endpoint, data);
-        result.EnsureSuccessStatusCode();
+        var result = await _client.PostAsync<TransactionView, object>(endpoint, data);
 
-        var json = await result.Content.ReadAsStringAsync();
-        var createdTransaction = JsonConvert.DeserializeObject<TransactionView>(json);
-
-        if (createdTransaction is null)
-        {
-            throw new InvalidCastException();
-        }
-        
-        createdTransaction.Type = transaction.Type;
-        return createdTransaction;
+        result.Type = transaction.Type;
+        return result;
     }
 }

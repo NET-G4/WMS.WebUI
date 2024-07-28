@@ -1,4 +1,6 @@
-﻿@{
+﻿@inject WMS.WebUI.Services.RolesService rolesService;
+
+@{
     List<object> menuItems = new List<object>();
 
     menuItems.Add(new
@@ -37,23 +39,26 @@
         iconCss = "fa-solid fa-list"
     });
 
-    menuItems.Add(new
+    if (rolesService.HasRole("Manager"))
     {
-        text = "Transactions",
-        separator = true
-    });
-    menuItems.Add(new
-    {
-        text = "Transactions",
-        url = "/transactions",
-        iconCss = "fa-solid fa-money-bill-transfer"
-    });
-    menuItems.Add(new
-    {
-        text = "Partners",
-        url = "#",
-        iconCss = "fa-solid fa-users"
-    });
+        menuItems.Add(new
+        {
+            text = "Transactions",
+            separator = true
+        });
+        menuItems.Add(new
+        {
+            text = "Transactions",
+            url = "/transactions",
+            iconCss = "fa-solid fa-money-bill-transfer"
+        });
+        menuItems.Add(new
+        {
+            text = "Partners",
+            url = "#",
+            iconCss = "fa-solid fa-users"
+        });
+    }
 
     menuItems.Add(new
     {
