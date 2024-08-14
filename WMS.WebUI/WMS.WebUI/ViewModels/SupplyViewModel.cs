@@ -1,4 +1,6 @@
-﻿namespace WMS.WebUI.ViewModels;
+﻿using WMS.WebUI.ViewModels.Transaction;
+
+namespace WMS.WebUI.ViewModels;
 
 public class SupplyViewModel
 {
@@ -10,5 +12,5 @@ public class SupplyViewModel
     public int SupplierId { get; set; }
     public string Supplier { get; set; }
 
-    public List<TransactionItem> SupplyItems { get; set; }
+    public List<TransactionItemViewModel> SupplyItems { get; set; }
 }

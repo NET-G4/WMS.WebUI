@@ -1,11 +1,12 @@
 ﻿using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.Transaction;
 
 namespace WMS.WebUI.Stores.Interfaces;
 
 public interface ITransactionsStore
 {
-    Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type);
+    Task<List<TransactionViewModel>> GetTransactionsAsync(string? search, string? type);
     Task<List<PartnerViewModel>> GetPartnersAsync();
-    Task<TransactionView> GetByIdAndTypeAsync(int id, TransactionType type);
-    Task<TransactionView> Create(CreateTransactionViewModel transaction);
+    Task<TransactionViewModel> GetByIdAndTypeAsync(int id, TransactionType type);
+    Task<TransactionViewModel> Create(CreateTransactionViewModel transaction);
 }

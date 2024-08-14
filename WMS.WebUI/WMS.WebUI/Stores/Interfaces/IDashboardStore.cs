@@ -1,4 +1,4 @@
-﻿using WMS.WebUI.ViewModels;
+﻿using WMS.WebUI.ViewModels.Dashboard;
 
 namespace WMS.WebUI.Stores.Interfaces;
 

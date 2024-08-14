@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
-using System.Security.Claims;
+using WMS.WebUI.Exceptions;
 
 namespace WMS.WebUI.Services;
 
@@ -42,6 +41,18 @@ public class ApiClient
         return result;
     }
 
+    public async Task<Stream> GetAsStreamAsync(string url)
+    {
+        AddJwt();
+
+        var response = await _client.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        return stream;
+    }
+
     public async Task<TResult> PostAsync<TResult, TBody>(string url, TBody body) 
         where TBody : class
     {
@@ -80,6 +91,11 @@ public class ApiClient
     private void AddJwt()
     {
         var token = _httpContextAccessor.HttpContext?.Request.Cookies["JWT"];
+
+        if (string.IsNullOrEmpty(token))
+        {
+            throw new UnauthorizedException();
+        }
 
         _client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);

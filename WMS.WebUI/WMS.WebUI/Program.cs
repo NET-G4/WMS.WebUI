@@ -5,6 +5,7 @@ using WMS.WebUI.Extensions;
 using WMS.WebUI.Filters;
 using WMS.WebUI.Helpers;
 using WMS.WebUI.Services;
+using WMS.WebUI.Services.Interfaces;
 using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
 
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IDashboardStore, DashboardStore>();
 builder.Services.AddScoped<ICategoryStore, CategoryStore>();
 builder.Services.AddScoped<IProductsStore, ProductStore>();
 builder.Services.AddScoped<ITransactionsStore, TransactionsStore>();
+builder.Services.AddScoped<IUserAgentService, UserAgentService>();
 builder.Services.AddSyncfusion(builder.Configuration);
 builder.Services.AddAuthentication(options =>
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WMS.WebUI.Helpers;
 using WMS.WebUI.Stores.Interfaces;
-using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.Transaction;
 
 namespace WMS.WebUI.Controllers;
 

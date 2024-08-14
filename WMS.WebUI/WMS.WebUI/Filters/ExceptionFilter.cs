@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
 using System.Reflection.Metadata.Ecma335;
+using WMS.WebUI.Exceptions;
 
 namespace WMS.WebUI.Filters;
 
@@ -14,6 +15,11 @@ public class ExceptionFilter : IExceptionFilter
         {
             var code = GetStatusCode(apiException.StatusCode);
             context.Result = new RedirectToActionResult("ErrorHandler", "Home", new { statusCode = code });
+            context.ExceptionHandled = true;
+        }
+        else if(context.Exception is UnauthorizedException)
+        {
+            context.Result = new RedirectToActionResult("ErrorHandler", "Home", new { statusCode = 401 });
             context.ExceptionHandled = true;
         }
         else

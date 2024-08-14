@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WMS.WebUI.ViewModels;
+namespace WMS.WebUI.ViewModels.Auth;
 
 public class LoginViewModel
 {

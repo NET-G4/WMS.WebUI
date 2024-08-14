@@ -1,12 +1,13 @@
 ﻿using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.Transaction;
 
 namespace WMS.WebUI.Mappings;
 
 public static class SalesMappings
 {
-    public static TransactionView ToTransaction(this SaleViewModel sale)
+    public static TransactionViewModel ToTransaction(this SaleViewModel sale)
     {
-        return new TransactionView
+        return new TransactionViewModel
         {
             Id = sale.Id,
             TotalDue = sale.TotalPaid,

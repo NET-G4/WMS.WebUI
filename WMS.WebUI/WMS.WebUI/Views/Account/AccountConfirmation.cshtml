@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Views/Shared/_LoginPageLayout.cshtml";
+}
+
+<p>@ViewBag.Message</p>
+@if (ViewBag.IsConfirmed)
+{
+    <a asp-action="Login" >Login</a>
+}
+

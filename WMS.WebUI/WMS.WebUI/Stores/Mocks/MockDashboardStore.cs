@@ -1,5 +1,6 @@
 ﻿using WMS.WebUI.Stores.Interfaces;
-using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.Dashboard;
+using WMS.WebUI.ViewModels.Transaction;
 
 namespace WMS.WebUI.Stores.Mocks;
 
@@ -19,84 +20,84 @@ public class MockDashboardStore : IDashboardStore
             new SplineChart
             {
                 Month = "January",
-                Refunds = 10,
+                Refund = 10,
                 Income = 50,
                 Expense = 45
             },
             new SplineChart
             {
                 Month = "February",
-                Refunds = 25,
+                Refund = 25,
                 Income = 44,
                 Expense = 45
             },
             new SplineChart
             {
                 Month = "March",
-                Refunds = 50,
+                Refund = 50,
                 Income = 350,
                 Expense = 245
             },
             new SplineChart
             {
                 Month = "April",
-                Refunds = 150,
+                Refund = 150,
                 Income = 550,
                 Expense = 445
             },
             new SplineChart
             {
                 Month = "May",
-                Refunds = 43,
+                Refund = 43,
                 Income = 66,
                 Expense = 12
             },
             new SplineChart
             {
                 Month = "Jun",
-                Refunds = 80,
+                Refund = 80,
                 Income = 85,
                 Expense = 46
             },
             new SplineChart
             {
                 Month = "Jul",
-                Refunds = 22,
+                Refund = 22,
                 Income = 120,
                 Expense = 110
             },
             new SplineChart
             {
                 Month = "Aug",
-                Refunds = 90,
+                Refund = 90,
                 Income = 40,
                 Expense = 80
             },
             new SplineChart
             {
                 Month = "Sep",
-                Refunds = 70,
+                Refund = 70,
                 Income = 150,
                 Expense = 45
             },
             new SplineChart
             {
                 Month = "Oct",
-                Refunds = 210,
+                Refund = 210,
                 Income = 150,
                 Expense = 345
             },
             new SplineChart
             {
                 Month = "Nov",
-                Refunds = 210,
+                Refund = 210,
                 Income = 250,
                 Expense = 145
             },
             new SplineChart
             {
                 Month = "Dec",
-                Refunds = 70,
+                Refund = 70,
                 Income = 95,
                 Expense = 65
             },
@@ -149,44 +150,44 @@ public class MockDashboardStore : IDashboardStore
                 SalesCount = 98
             },
         };
-        dashboard.Transactions = new List<TransactionView>
+        dashboard.Transactions = new List<TransactionViewModel>
         {
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 1,
                 TotalDue = 500,
                 Date = DateTime.Now,
                 Type = TransactionType.Sale
             },
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 2,
                 TotalDue = 300,
                 Date = DateTime.Now,
                 Type = TransactionType.Sale
             },
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 3,
                 TotalDue = 459,
                 Date = DateTime.Now,
                 Type = TransactionType.Supply
             },
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 4,
                 TotalDue = 500,
                 Date = DateTime.Now,
                 Type = TransactionType.Supply
             },
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 5,
                 TotalDue = 250,
                 Date = DateTime.Now,
                 Type = TransactionType.Refund
             },
-            new TransactionView
+            new TransactionViewModel
             {
                 Id = 7,
                 TotalDue = 200,

@@ -2,6 +2,7 @@
 using WMS.WebUI.Services;
 using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.ViewModels;
+using WMS.WebUI.ViewModels.Transaction;
 
 namespace WMS.WebUI.Stores;
 
@@ -14,7 +15,7 @@ public class TransactionsStore : ITransactionsStore
         _client = client;
     }
 
-    public async Task<List<TransactionView>> GetTransactionsAsync(string? search, string? type)
+    public async Task<List<TransactionViewModel>> GetTransactionsAsync(string? search, string? type)
     {
         var salesTask = _client.GetAsync<List<SaleViewModel>>($"sales?search={search}");
         var suppliesTask = _client.GetAsync<List<SupplyViewModel>>($"supplies?search={search}");
@@ -23,7 +24,7 @@ public class TransactionsStore : ITransactionsStore
 
         var sales = salesTask.Result;
         var supplies = suppliesTask.Result;
-        List<TransactionView> transactions = [];
+        List<TransactionViewModel> transactions = [];
 
         sales?.ForEach(sale => transactions.Add(sale.ToTransaction()));
         supplies?.ForEach(supply => transactions.Add(supply.ToTransaction()));
@@ -44,14 +45,14 @@ public class TransactionsStore : ITransactionsStore
         return [.. customersTask.Result, .. suppliersTask.Result];
     }
 
-    public async Task<TransactionView> GetByIdAndTypeAsync(int id, TransactionType type)
+    public async Task<TransactionViewModel> GetByIdAndTypeAsync(int id, TransactionType type)
     {
-        TransactionView transaction;
+        TransactionViewModel transaction;
 
         if (type == TransactionType.Sale)
         {
             var sale = await _client.GetAsync<SaleViewModel>($"sales/{id}");
-            transaction = new TransactionView
+            transaction = new TransactionViewModel
             {
                 Id = sale.Id,
                 Date = sale.Date,
@@ -64,7 +65,7 @@ public class TransactionsStore : ITransactionsStore
         else
         {
             var supply = await _client.GetAsync<SupplyViewModel>($"supplies/{id}");
-            transaction = new TransactionView
+            transaction = new TransactionViewModel
             {
                 Id = supply.Id,
                 Date = supply.Date,
@@ -78,7 +79,7 @@ public class TransactionsStore : ITransactionsStore
         return transaction;
     }
                 
-    public async Task<TransactionView> Create(CreateTransactionViewModel transaction)
+    public async Task<TransactionViewModel> Create(CreateTransactionViewModel transaction)
     {
         var endpoint = transaction.Type == TransactionType.Sale
             ? "sales"
@@ -104,7 +105,7 @@ public class TransactionsStore : ITransactionsStore
             };
         }
 
-        var result = await _client.PostAsync<TransactionView, object>(endpoint, data);
+        var result = await _client.PostAsync<TransactionViewModel, object>(endpoint, data);
 
         result.Type = transaction.Type;
         return result;

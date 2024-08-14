@@ -11,7 +11,7 @@ public class RolesService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public bool HasRole(string role)
+    public bool HasRole(params string[] roles)
     {
         var token = _httpContextAccessor.HttpContext?.Request.Cookies["JWT"];
 
@@ -20,8 +20,10 @@ public class RolesService
             return false;
         }
 
-        var roles = JwtHelper.GetUserRoles(token);
+        var userRoles = JwtHelper.GetUserRoles(token);
+        var hasRole = userRoles.Exists(userRole => 
+            roles.Any(role => role.Equals(userRole, StringComparison.OrdinalIgnoreCase)));
 
-        return roles.Exists(x => x.Equals(role, StringComparison.InvariantCultureIgnoreCase));
+        return hasRole;
     }
 }

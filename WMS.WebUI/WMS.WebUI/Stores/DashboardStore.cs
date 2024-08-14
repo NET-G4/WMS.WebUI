@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using WMS.WebUI.Constants;
-using WMS.WebUI.Stores.Interfaces;
-using WMS.WebUI.ViewModels;
+﻿using WMS.WebUI.Stores.Interfaces;
 using WMS.WebUI.Services;
+using WMS.WebUI.ViewModels.Dashboard;
 
 namespace WMS.WebUI.Stores;
 
