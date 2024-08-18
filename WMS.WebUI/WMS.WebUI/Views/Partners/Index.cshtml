@@ -4,7 +4,6 @@
 @{
     var partnerTypes = new string[] { "All", "Customers", "Suppliers" };
 }
-
 <form asp-controller="Partners" asp-action="Index">
     <input type="hidden" />
     <div class="row mt-3">
@@ -42,6 +41,7 @@
     </div>
 </form>
 
+
 <div class="row mb-4">
     <div class="col-12">
         <ejs-grid id="categories-list"
@@ -49,11 +49,11 @@
                   gridLines="Vertical"
                   allowSorting="true">
             <e-grid-columns>
-                <e-grid-column headerText="Id" field="Id" template="#idCellTemplate" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Id" id="idElement" field="Id" template="#idCellTemplate" typeof="Text"></e-grid-column>
                 <e-grid-column headerText="FullName" field="FullName" typeof="Text"></e-grid-column>
                 <e-grid-column headerText="Phone Number" field="PhoneNumber" typeof="Text"></e-grid-column>
                 <e-grid-column headerText="Balance" field="Balance" typeof="Text" format="c2"></e-grid-column>
-                <e-grid-column headerText="Type" field="Type" typeof="Text"></e-grid-column>
+                <e-grid-column headerText="Type"  field="Type" id="partnerType" typeof="Text"></e-grid-column>
             </e-grid-columns>
         </ejs-grid>
     </div>
@@ -61,6 +61,7 @@
 
 <script id="idCellTemplate" type="text/template">
     <div>
-        <a rel='nofollow' href="partners/details/${Id}">${Id}</a>
+        <a rel='nofollow' href="details/${Id}?partnerType'document.getElementById('partnerType')''">${Id}</a>
     </div>
 </script>
+

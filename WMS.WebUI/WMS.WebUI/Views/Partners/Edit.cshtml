@@ -1,30 +1,29 @@
 ﻿@model WMS.WebUI.ViewModels.PartnerViewModels.EditPartnerViewModel
 
-<div class="row m-5">
-    <form id="partner-form" class="d-flex flex-column gap-4" asp-action="Edit">
-        <h3 class="text-center">Edit Partner</h3>
+<div class="container mt-5">
+    <form id="partner-form" class="p-4 shadow rounded" asp-action="Edit">
+        <h3 class="text-center mb-4">Edit Partner</h3>
 
-        <div class="form-group d-flex gap-5">
-            <ejs-textbox id="first-name" name="FirstName" value="@Model.FirstName" placeholder="First Name" width="50%"></ejs-textbox>
-            <ejs-textbox id="last-name" name="LastName" value="@Model.LastName" placeholder="Last Name" width="50%"></ejs-textbox>
+        <div class="row mb-3">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                @Html.EJS().TextBox("FirstName").Placeholder("First Name").FloatLabelType(Syncfusion.EJ2.Inputs.FloatLabelType.Auto).Value(Model.FirstName).Render()
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                @Html.EJS().TextBox("LastName").Placeholder("Last Name").FloatLabelType(Syncfusion.EJ2.Inputs.FloatLabelType.Auto).Value(Model.LastName).Render()
+            </div>
         </div>
 
-        <div class="form-group d-flex gap-5">
-            <ejs-textbox id="phone-number" name="PhoneNumber" value="@Model.PhoneNumber" placeholder="Phone Number" width="50%"></ejs-textbox>
-            <ejs-numerictextbox id="balance" name="Balance" value="@Model.Balance" placeholder="Balance" width="50%"></ejs-numerictextbox>
+        <div class="row mb-3">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                @Html.EJS().TextBox("PhoneNumber").Placeholder("Phone Number").FloatLabelType(Syncfusion.EJ2.Inputs.FloatLabelType.Auto).Value(Model.PhoneNumber).Render()
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                @Html.EJS().NumericTextBox("Balance").Placeholder("Balance").FloatLabelType(Syncfusion.EJ2.Inputs.FloatLabelType.Auto).Value(Model.Balance).Render()
+            </div>
         </div>
 
-        <div class="form-group d-flex gap-5">
-            <ejs-combobox id="partner-type"
-                          dataSource="@ViewBag.PartnerTypes"
-                          value="@Model.Type"
-                          placeholder="Select Partner Type"
-                          width="50%"
-                          name="Type">
-                <e-combobox-fields value="Id" text="Name"></e-combobox-fields>
-            </ejs-combobox>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success w-50">Submit</button>
         </div>
-
-        <ejs-button id="submit" content="Submit" class="btn-success"></ejs-button>
     </form>
 </div>
