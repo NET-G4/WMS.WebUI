@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using WMS.WebUI.Configurations;
 using WMS.WebUI.Exceptions;
 
 namespace WMS.WebUI.Services;
@@ -9,17 +11,14 @@ public class ApiClient
     private readonly HttpClient _client;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ApiClient(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+    public ApiClient(
+        IConfiguration configuration,
+        IHttpContextAccessor httpContextAccessor,
+        IOptions<ApiConfiguration> apiConfiguration)
     {
         _client = new HttpClient();
-        var url = configuration.GetValue<string>("API_URL");
 
-        if (string.IsNullOrEmpty(url))
-        {
-            throw new InvalidOperationException("Cannot setup API Client without URL.");
-        }
-
-        _client.BaseAddress = new Uri("https://localhost:7097/api/");
+        _client.BaseAddress = new Uri(apiConfiguration.Value.Url);
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -53,7 +52,7 @@ public class ApiClient
         return stream;
     }
 
-    public async Task<TResult> PostAsync<TResult, TBody>(string url, TBody body) 
+    public async Task<TResult> PostAsync<TResult, TBody>(string url, TBody body)
         where TBody : class
     {
         AddJwt();

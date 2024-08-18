@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using WMS.WebUI.Services.Interfaces;
 using WMS.WebUI.ViewModels.Auth;
 
@@ -23,7 +19,7 @@ public class AccountController : Controller
     public IActionResult Login()
     {
 
-    return View();
+        return View();
     }
 
     [HttpPost]
@@ -59,13 +55,13 @@ public class AccountController : Controller
             model.ClientUri = Url.Action("EmailConfirmed", "Account", null, Request.Scheme);
             var response = await _client.PostAsJsonAsync("auth/register", model);
 
-			if (response.IsSuccessStatusCode)
-			{
-				return RedirectToAction("ConfirmEmail");
-			}
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ConfirmEmail");
+            }
 
-			ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-		}
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        }
 
         return View(model);
     }
@@ -74,7 +70,7 @@ public class AccountController : Controller
     {
         var cookies = HttpContext.Request.Cookies;
 
-        foreach(var cookie in cookies)
+        foreach (var cookie in cookies)
         {
             Response.Cookies.Delete(cookie.Key);
         }
@@ -154,7 +150,7 @@ public class AccountController : Controller
 
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction("AccountConfirmation", new {isConfirmed = true, message = "You have successfully confirmed your email. Now, you can login to the system." });
+            return RedirectToAction("AccountConfirmation", new { isConfirmed = true, message = "You have successfully confirmed your email. Now, you can login to the system." });
         }
 
         return RedirectToAction("AccountConfirmation", new { isConfirmed = false, message = "There was an error confirming your email. Please, try again." });

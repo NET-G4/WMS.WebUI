@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using WMS.WebUI.Extensions;
 using WMS.WebUI.Filters;
-using WMS.WebUI.Helpers;
 using WMS.WebUI.Services;
 using WMS.WebUI.Services.Interfaces;
 using WMS.WebUI.Stores;
@@ -12,7 +10,7 @@ using WMS.WebUI.Stores.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(options => 
+builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new ExceptionFilter()));
 builder.Services.AddSingleton<ApiClient>();
 builder.Services.AddSingleton<RolesService>();
@@ -30,17 +28,6 @@ builder.Services.AddAuthentication(options =>
 })
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
-        };
-
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = context =>
