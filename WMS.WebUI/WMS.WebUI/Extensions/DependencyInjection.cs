@@ -8,7 +8,7 @@ public static class DependencyInjection
     public static IServiceCollection AddSyncfusion(this IServiceCollection services, IConfiguration configuration)
     {
         var section = configuration.GetSection("Keys");
-        var key = section.GetValue<string>("Syncfusion");
+        var key = section.GetValue<string>("Syncfusion") ?? "asd";
 
         if (string.IsNullOrEmpty(key))
         {
