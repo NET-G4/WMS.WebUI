@@ -1,4 +1,3 @@
-using Azure.Identity;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -28,7 +27,8 @@ builder.Services.AddScoped<IProductsStore, ProductStore>();
 builder.Services.AddScoped<ITransactionsStore, TransactionsStore>();
 builder.Services.AddScoped<IUserAgentService, UserAgentService>();
 builder.Services.AddSyncfusion(builder.Configuration);
-builder.Services.AddAuthentication(options =>
+builder.Services
+    .AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,9 +72,9 @@ if (!app.Environment.IsDevelopment())
 
 if (app.Environment.IsProduction())
 {
-    builder.Configuration.AddAzureKeyVault(
-        new Uri("https://wms-webui-configurations.vault.azure.net/"),
-        new DefaultAzureCredential());
+    //builder.Configuration.AddAzureKeyVault(
+    //    new Uri("https://wms-webui-configurations.vault.azure.net/"),
+    //    new DefaultAzureCredential());
 
     builder.Host.UseSerilog((context, configuration) => configuration
         .MinimumLevel.Debug()
