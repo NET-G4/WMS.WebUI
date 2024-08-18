@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -71,9 +72,9 @@ if (!app.Environment.IsDevelopment())
 
 if (app.Environment.IsProduction())
 {
-    //builder.Configuration.AddAzureKeyVault(
-    //    new Uri("https://wms-webui-configurations.vault.azure.net/"),
-    //    new DefaultAzureCredential());
+    builder.Configuration.AddAzureKeyVault(
+        new Uri("https://wms-webui-configurations.vault.azure.net/"),
+        new DefaultAzureCredential());
 
     //builder.Host.UseSerilog((context, configuration) => configuration
     //    .MinimumLevel.Debug()
