@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using WMS.WebUI.Extensions;
@@ -60,6 +61,13 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+if (app.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri("https://wms-webui-configurations.vault.azure.net/"),
+        new DefaultAzureCredential());
 }
 
 app.UseHttpsRedirection();
