@@ -1,6 +1,8 @@
 using Azure.Identity;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using WMS.WebUI.Extensions;
 using WMS.WebUI.Filters;
 using WMS.WebUI.Services;
@@ -68,6 +70,15 @@ if (app.Environment.IsProduction())
     builder.Configuration.AddAzureKeyVault(
         new Uri("https://wms-webui-configurations.vault.azure.net/"),
         new DefaultAzureCredential());
+
+    builder.Host.UseSerilog((context, configuration) => configuration
+        .MinimumLevel.Debug()
+        .WriteTo.ApplicationInsights(
+            new TelemetryConfiguration
+            {
+                InstrumentationKey = "99999930-e6b4-46ed-95cb-73ef51449b94"
+            },
+            TelemetryConverter.Traces));
 }
 
 app.UseHttpsRedirection();
