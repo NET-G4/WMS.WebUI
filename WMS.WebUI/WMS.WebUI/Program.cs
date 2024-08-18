@@ -1,4 +1,3 @@
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -76,15 +75,15 @@ if (app.Environment.IsProduction())
     //    new Uri("https://wms-webui-configurations.vault.azure.net/"),
     //    new DefaultAzureCredential());
 
-    builder.Host.UseSerilog((context, configuration) => configuration
-        .MinimumLevel.Debug()
-        .WriteTo.ApplicationInsights(
-            new TelemetryConfiguration
-            {
-                InstrumentationKey = "99999930-e6b4-46ed-95cb-73ef51449b94",
-                ConnectionString = "InstrumentationKey=99999930-e6b4-46ed-95cb-73ef51449b94;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/;ApplicationId=8837aba4-c7d2-4e4b-a012-01a48d5216ba"
-            },
-            TelemetryConverter.Traces));
+    //builder.Host.UseSerilog((context, configuration) => configuration
+    //    .MinimumLevel.Debug()
+    //    .WriteTo.ApplicationInsights(
+    //        new TelemetryConfiguration
+    //        {
+    //            InstrumentationKey = "99999930-e6b4-46ed-95cb-73ef51449b94",
+    //            ConnectionString = "InstrumentationKey=99999930-e6b4-46ed-95cb-73ef51449b94;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/;ApplicationId=8837aba4-c7d2-4e4b-a012-01a48d5216ba"
+    //        },
+    //        TelemetryConverter.Traces));
 }
 
 app.UseHttpsRedirection();
