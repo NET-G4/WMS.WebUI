@@ -7,20 +7,27 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddSyncfusion(this IServiceCollection services, IConfiguration configuration)
     {
-        var section = configuration.GetSection("Keys");
-        var key = section.GetValue<string>("Syncfusion") ?? "asd";
-
-        if (string.IsNullOrEmpty(key))
+        try
         {
-            throw new InvalidOperationException("Cannot register Syncfusion without key.");
+            var section = configuration.GetSection("Keys");
+            var key = section.GetValue<string>("Syncfusion") ?? "asd";
+
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new InvalidOperationException("Cannot register Syncfusion without key.");
+            }
+
+            services.AddOptions<ApiConfiguration>()
+                .Bind(configuration.GetSection(ApiConfiguration.SectionName))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            SyncfusionLicenseProvider.RegisterLicense(key);
         }
+        catch (Exception ex)
+        {
 
-        services.AddOptions<ApiConfiguration>()
-            .Bind(configuration.GetSection(ApiConfiguration.SectionName))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
-        SyncfusionLicenseProvider.RegisterLicense(key);
+        }
 
         return services;
     }
