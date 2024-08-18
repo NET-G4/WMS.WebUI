@@ -10,6 +10,11 @@ using WMS.WebUI.Services.Interfaces;
 using WMS.WebUI.Stores;
 using WMS.WebUI.Stores.Interfaces;
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateLogger();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
