@@ -123,6 +123,7 @@ public class TransactionsStore : ITransactionsStore
         {
             data = new
             {
+                Id = transaction.Id,
                 CustomerId = transaction.PartnerId,
                 Date = transaction.Date,
                 SaleItems = transaction.Items
@@ -132,6 +133,7 @@ public class TransactionsStore : ITransactionsStore
         {
             data = new
             {
+                Id = transaction.Id,
                 SupplierId = transaction.PartnerId,
                 Date = transaction.Date,
                 SupplyItems = transaction.Items

@@ -86,7 +86,7 @@ public class TransactionsController : Controller
         ViewBag.Partners = partnersTask.Result;
         ViewBag.Products= productsTask.Result.Data;
 
-        return View(transaction);
+        return View(transaction.Result);
     }
 
     [HttpPost]
@@ -118,6 +118,7 @@ public class TransactionsController : Controller
 
         return View(transaction);
     }
+
     [ValidateAntiForgeryToken]
     [HttpPost]
     [ActionName("Delete")]
