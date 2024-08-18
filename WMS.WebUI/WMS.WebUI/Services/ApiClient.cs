@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using WMS.WebUI.Configurations;
 using WMS.WebUI.Exceptions;
 
 namespace WMS.WebUI.Services;
@@ -13,12 +11,11 @@ public class ApiClient
 
     public ApiClient(
         IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor,
-        IOptions<ApiConfiguration> apiConfiguration)
+        IHttpContextAccessor httpContextAccessor)
     {
         _client = new HttpClient();
 
-        _client.BaseAddress = new Uri(apiConfiguration.Value.Url);
+        _client.BaseAddress = new Uri("https://w2sc5qx5-7097.inc1.devtunnels.ms/api/");
         _httpContextAccessor = httpContextAccessor;
     }
 
